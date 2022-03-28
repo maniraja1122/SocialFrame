@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.socialframe.Activities.OpenModel
 import com.example.socialframe.AuthFunctions.AuthHelper
 import com.example.socialframe.classes.Post
 import com.example.socialframe.classes.User
@@ -60,7 +61,8 @@ class MainViewModel:ViewModel() {
         //Every Time
         AuthHelper.manager.db.getReference().child("Users").child(AuthHelper.manager.auth.uid.toString()).addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                CurrentUser.value=snapshot.getValue(User::class.java)
+                var updated =snapshot.getValue(User::class.java)
+                    CurrentUser.value=updated
             }
             override fun onCancelled(error: DatabaseError) {
             }
@@ -88,5 +90,6 @@ class MainViewModel:ViewModel() {
     }
     init{
         SetUI()
+        AllPosts.value= mutableListOf()
     }
 }

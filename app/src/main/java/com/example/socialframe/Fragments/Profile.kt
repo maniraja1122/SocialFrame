@@ -11,9 +11,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.socialframe.Activities.OpenModel
+import com.example.socialframe.Adapters.LinkPostAdapter
 import com.example.socialframe.R
 import com.example.socialframe.ViewModels.MainViewModel
 import com.example.socialframe.databinding.FragmentProfileBinding
@@ -33,6 +35,10 @@ class Profile : Fragment() {
         binding.profiledesc.setText(mymodel.CurrentUser.value?.Description)
         binding.followers.setText(mymodel.CurrentUser.value?.Followers?.size.toString()+" Followers")
         binding.followed.setText(mymodel.CurrentUser.value?.Followed?.size.toString()+" Followed")
+        //Setting Recycler
+        var adapter = LinkPostAdapter(OpenModel.mycontext!!,mymodel.CurrentUser.value!!.MyPosts.reversed())
+        binding.myposts.layoutManager=LinearLayoutManager(OpenModel.mycontext)
+        binding.myposts.adapter=adapter
         Glide.with(OpenModel.mycontext!!).load(mymodel.CurrentUser.value!!.MyPICUrl).placeholder(R.drawable.empty_profile).into(binding.profilephoto)
         mymodel.CurrentUser.observe(requireActivity(), Observer {
             binding.profilename.setText(it.Name)
@@ -40,6 +46,12 @@ class Profile : Fragment() {
             binding.followers.setText(it.Followers.size.toString()+" Followers")
             binding.followed.setText(it.Followed.size.toString()+" Followed")
             Glide.with(OpenModel.mycontext!!).load(mymodel.CurrentUser.value!!.MyPICUrl).placeholder(R.drawable.empty_profile).into(binding.profilephoto)
+            //Updating Recycler
+            if(it.MyPosts.size!=binding.myposts.adapter!!.itemCount) {
+                var adapter = LinkPostAdapter(OpenModel.mycontext!!, it!!.MyPosts.reversed())
+                binding.myposts.layoutManager = LinearLayoutManager(OpenModel.mycontext)
+                binding.myposts.adapter = adapter
+            }
         })
         binding.profilephoto.setOnClickListener(){
             val i = Intent(

@@ -24,6 +24,10 @@ class HomeFragment : Fragment() {
     ): View? {
         var binding:FragmentHomeBinding= FragmentHomeBinding.inflate(inflater,container,false)
         var mymodel=ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        mymodel.SetAllPosts()
+        var adapter = PostAdapter(OpenModel.mycontext!!, OpenModel.AllPosts.value!!)
+        binding.recyclerView.layoutManager=LinearLayoutManager(OpenModel.mycontext)
+        binding.recyclerView.adapter=adapter
         binding.addbtn.setOnClickListener(){
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,CreatePost()).commit()
         }

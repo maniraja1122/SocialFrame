@@ -51,8 +51,8 @@ class SignupActivity : AppCompatActivity() {
                                 ).show()
                                 newuser.key = AuthHelper.manager.auth.uid.toString()
                                 AuthHelper.AddUser(newuser)
-                                startActivity(Intent(this, HomeActivity::class.java))
-                                overridePendingTransition(R.anim.slidein, R.anim.slideout)
+                                //startActivity(Intent(this, HomeActivity::class.java))
+                                //overridePendingTransition(R.anim.slidein, R.anim.slideout)
                             }
                         }).addOnFailureListener() {
                     Toast.makeText(
