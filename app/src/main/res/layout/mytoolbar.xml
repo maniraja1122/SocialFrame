@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mytoolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#303F9F"
+    app:subtitleTextColor="#FFFFFF"
+    app:titleTextColor="#FFFFFF">
+
+    <ImageButton
+        android:id="@+id/searchbtn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:foreground="@drawable/ic_baseline_person_search_24"
+        android:foregroundGravity="center" />
+
+    <ImageButton
+        android:id="@+id/messagebtn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:foreground="@drawable/ic_baseline_message_24"
+        android:foregroundGravity="center" />
+
+    <ImageButton
+        android:id="@+id/profilebtn"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:foreground="@drawable/ic_baseline_person_pin_24"
+        android:foregroundGravity="center" />
+</androidx.appcompat.widget.Toolbar>

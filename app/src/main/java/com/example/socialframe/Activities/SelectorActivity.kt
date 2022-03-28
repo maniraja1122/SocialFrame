@@ -22,4 +22,6 @@ class SelectorActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slidein, R.anim.slideout)
         }
     }
+    override fun onBackPressed() {
+    }
 }

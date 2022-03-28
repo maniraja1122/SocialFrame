@@ -64,6 +64,8 @@ class SignupActivity : AppCompatActivity() {
             }
         }
     }
+    override fun onBackPressed() {
+    }
     open fun isValidEmailId(email: String): Boolean {
         return Pattern.compile(
             "^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
