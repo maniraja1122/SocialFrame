@@ -36,7 +36,7 @@ class CreatePost : Fragment() {
                 Toast.makeText(OpenModel.mycontext!!, "Please Select An Image First", Toast.LENGTH_SHORT).show()
             }
             else{
-                val key = AuthHelper.CreatePost(Post(posttitle),postimage!!)
+                val key = AuthHelper.CreatePost(Post(posttitle, OpenModel.CurrentUser.value!!.key),postimage!!)
                 OpenModel.CurrentUser.value!!.MyPosts.add(key)
                 AuthHelper.AddUser(OpenModel.CurrentUser.value!!)
                 requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,HomeFragment()).commit()

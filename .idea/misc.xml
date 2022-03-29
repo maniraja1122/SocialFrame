@@ -13,9 +13,12 @@
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/fragment_notifications.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
-        <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/fragment_settings.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/fragment_search.xml" value="0.22" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/fragment_settings.xml" value="0.25" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/fragment_visited_profile.xml" value="0.22" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/mytoolbar.xml" value="0.22" />
-        <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/post_layout.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/post_layout.xml" value="0.25" />
+        <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/searchidlayout.xml" value="0.25" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/menu/bottommenu.xml" value="0.27291666666666664" />
       </map>
     </option>

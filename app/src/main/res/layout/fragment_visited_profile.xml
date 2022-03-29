@@ -1,81 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
-    tools:context=".Fragments.Profile">
-
+    tools:context=".Fragments.VisitedProfile">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/followend"
+        app:layout_constraintGuide_percent="0.45"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.45" />
+        android:orientation="horizontal" />
 
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/imageend"
+        app:layout_constraintGuide_percent="0.2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2" />
+        android:orientation="horizontal" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/imagetop"
+        app:layout_constraintGuide_percent="0.05"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.05" />
+        android:orientation="horizontal" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/desend"
+        app:layout_constraintGuide_percent="0.35"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.35" />
+        android:orientation="horizontal" />
 
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/nameend"
+        app:layout_constraintGuide_percent="0.25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.25" />
+        android:orientation="horizontal" />
 
     <ImageView
         android:id="@+id/profilephoto"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:clickable="true"
-        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/imageend"
         app:layout_constraintEnd_toStartOf="@+id/v2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/v1"
         app:layout_constraintTop_toTopOf="@+id/imagetop"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/profilename"
+        app:layout_constraintBottom_toTopOf="@+id/nameend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageend"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:fontFamily="@font/baloo"
         android:gravity="center"
         android:text="Abdul Manan Raja"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/nameend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageend" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/profiledesc"
+        app:layout_constraintBottom_toTopOf="@+id/desend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nameend"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:editable="false"
@@ -84,20 +86,18 @@
         android:overScrollMode="ifContentScrolls"
         android:text="a man with a motive"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/desend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nameend" />
+        android:textColor="#FFFFFF" />
 
-    <TextView
+    <Button
         android:id="@+id/followers"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/acme"
-        android:text="0 Followers"
+        android:text="0 "
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
+        android:textSize="14sp"
+        app:icon="@drawable/ic_baseline_person_add_24"
+        app:iconGravity="end"
         app:layout_constraintBottom_toTopOf="@+id/followend"
         app:layout_constraintEnd_toStartOf="@+id/followed"
         app:layout_constraintHorizontal_bias="0.5"
@@ -106,45 +106,45 @@
 
     <TextView
         android:id="@+id/followed"
+        app:layout_constraintBottom_toTopOf="@+id/followend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/followers"
+        app:layout_constraintTop_toTopOf="@+id/desend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/acme"
         android:text="0 Followed"
         android:textColor="#FFFFFF"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/followend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/followers"
-        app:layout_constraintTop_toTopOf="@+id/desend" />
-<androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="@+id/followend">
+        android:textSize="20sp" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/myposts"
+    <androidx.core.widget.NestedScrollView
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/followend"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:nestedScrollingEnabled="false"
-        tools:listitem="@layout/post_layout" />
-</androidx.core.widget.NestedScrollView>
+        android:layout_height="0dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/myposts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:nestedScrollingEnabled="false"
+            tools:listitem="@layout/post_layout" />
+    </androidx.core.widget.NestedScrollView>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/v1"
+        app:layout_constraintGuide_percent="0.35"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.35" />
+        android:orientation="vertical" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/v2"
+        app:layout_constraintGuide_percent="0.65"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.65" />
-
+        android:orientation="vertical" />
 </androidx.constraintlayout.widget.ConstraintLayout>

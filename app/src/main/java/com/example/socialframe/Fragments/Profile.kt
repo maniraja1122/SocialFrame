@@ -30,13 +30,13 @@ class Profile : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentProfileBinding.inflate(inflater,container,false)
-         mymodel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        mymodel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
         binding.profilename.setText(mymodel.CurrentUser.value?.Name)
         binding.profiledesc.setText(mymodel.CurrentUser.value?.Description)
         binding.followers.setText(mymodel.CurrentUser.value?.Followers?.size.toString()+" Followers")
         binding.followed.setText(mymodel.CurrentUser.value?.Followed?.size.toString()+" Followed")
         //Setting Recycler
-        var adapter = LinkPostAdapter(OpenModel.mycontext!!,mymodel.CurrentUser.value!!.MyPosts.reversed())
+        var adapter = LinkPostAdapter(OpenModel.mycontext!!,mymodel.CurrentUser.value!!.MyPosts.reversed(),mymodel.CurrentUser.value!!)
         binding.myposts.layoutManager=LinearLayoutManager(OpenModel.mycontext)
         binding.myposts.adapter=adapter
         Glide.with(OpenModel.mycontext!!).load(mymodel.CurrentUser.value!!.MyPICUrl).placeholder(R.drawable.empty_profile).into(binding.profilephoto)
@@ -48,7 +48,7 @@ class Profile : Fragment() {
             Glide.with(OpenModel.mycontext!!).load(mymodel.CurrentUser.value!!.MyPICUrl).placeholder(R.drawable.empty_profile).into(binding.profilephoto)
             //Updating Recycler
             if(it.MyPosts.size!=binding.myposts.adapter!!.itemCount) {
-                var adapter = LinkPostAdapter(OpenModel.mycontext!!, it!!.MyPosts.reversed())
+                var adapter = LinkPostAdapter(OpenModel.mycontext!!, it!!.MyPosts.reversed(),it)
                 binding.myposts.layoutManager = LinearLayoutManager(OpenModel.mycontext)
                 binding.myposts.adapter = adapter
             }
