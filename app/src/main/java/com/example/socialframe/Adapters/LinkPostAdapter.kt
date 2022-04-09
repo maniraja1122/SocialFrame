@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.example.socialframe.Activities.OpenModel
 import com.example.socialframe.AuthFunctions.AuthHelper
 import com.example.socialframe.R
+import com.example.socialframe.classes.Notifications
 import com.example.socialframe.classes.Post
 import com.example.socialframe.classes.User
 import com.google.firebase.database.DataSnapshot
@@ -89,6 +90,26 @@ class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User)
                     else{
                         post.Likes.add(OpenModel.CurrentUser.value!!.key)
                         AuthHelper.UpdatePost(post)
+                        //Notified
+                        if(post.author!= OpenModel.CurrentUser.value!!.key) {
+                            AuthHelper.manager.db.reference.child("Users").child(post.author)
+                                .addListenerForSingleValueEvent(object : ValueEventListener {
+                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                        var myuser = snapshot.getValue(User::class.java)
+                                        var newnotification = Notifications(
+                                            "post",
+                                            "Someone liked your post", post.key
+                                        )
+                                        myuser!!.MyNotifications.add(newnotification)
+                                        AuthHelper.AddUser(myuser)
+                                    }
+
+                                    override fun onCancelled(error: DatabaseError) {
+                                        TODO("Not yet implemented")
+                                    }
+
+                                })
+                        }
                         //Temporary Update
                         holder.likebtn.setBackgroundColor(Color.RED)
                         holder.likebtn.setText((post.Likes.size).toString())

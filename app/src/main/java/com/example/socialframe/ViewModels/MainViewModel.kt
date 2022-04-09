@@ -101,6 +101,7 @@ class MainViewModel:ViewModel() {
         AuthHelper.manager.db.getReference().child("Users").child(AuthHelper.manager.auth.uid.toString()).addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 var updated =snapshot.getValue(User::class.java)
+                if(updated!=null)
                     CurrentUser.value=updated
             }
             override fun onCancelled(error: DatabaseError) {

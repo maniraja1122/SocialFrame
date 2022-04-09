@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.example.socialframe.Activities.OpenModel
 import com.example.socialframe.AuthFunctions.AuthHelper
 import com.example.socialframe.R
+import com.example.socialframe.classes.Notifications
 import com.example.socialframe.classes.Post
 import com.example.socialframe.classes.User
 import com.google.firebase.database.DataSnapshot
@@ -95,6 +96,30 @@ class PostAdapter(var context:Context,var arr:List<Post>):RecyclerView.Adapter<P
             else{
                 arr[position].Likes.add(OpenModel.CurrentUser.value!!.key)
                 AuthHelper.UpdatePost(arr[position])
+                //Notified
+                CoroutineScope(Dispatchers.IO).launch {
+                    async {
+                if(arr[position].author!= OpenModel.CurrentUser.value!!.key) {
+                    AuthHelper.manager.db.reference.child("Users").child(arr[position].author)
+                        .addListenerForSingleValueEvent(object : ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                var myuser = snapshot.getValue(User::class.java)
+                                var newnotification = Notifications(
+                                    "post",
+                                    "Someone liked your post", arr[position].key
+                                )
+                                myuser!!.MyNotifications.add(newnotification)
+                                AuthHelper.AddUser(myuser)
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                TODO("Not yet implemented")
+                            }
+
+                        })
+                }
+                }
+                }
                 //Temporary Update
                 holder.likebtn.setBackgroundColor(Color.RED)
                 holder.likebtn.setText((arr[position].Likes.size).toString())

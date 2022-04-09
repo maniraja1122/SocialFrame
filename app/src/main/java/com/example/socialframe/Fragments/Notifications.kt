@@ -5,7 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.socialframe.Activities.OpenModel
+import com.example.socialframe.Adapters.NotificationsAdapter
 import com.example.socialframe.R
+import com.example.socialframe.databinding.FragmentNotificationsBinding
 
 
 class Notifications : Fragment() {
@@ -15,8 +20,28 @@ class Notifications : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_notifications, container, false)
+        inflater.inflate(R.layout.fragment_notifications, container, false)
+        var binding = FragmentNotificationsBinding.inflate(inflater,container,false)
+        var adapter = NotificationsAdapter(OpenModel.CurrentUser.value!!.MyNotifications.reversed())
+        binding.allnotifications.layoutManager=LinearLayoutManager(OpenModel.mycontext)
+        binding.allnotifications.adapter=adapter
+        try {
+            OpenModel.CurrentUser.observe(requireActivity(), Observer {
+                if(it!=null) {
+                    if (it.MyNotifications.size != binding.allnotifications.adapter!!.itemCount) {
+                        var adapter1 = NotificationsAdapter(it.MyNotifications.reversed())
+                        binding.allnotifications.layoutManager =
+                            LinearLayoutManager(OpenModel.mycontext)
+                        binding.allnotifications.adapter = adapter1
+                    }
+                }
+            })
+        }
+        catch (e:Exception){
+
+        }
+
+        return binding.root
     }
 
 }

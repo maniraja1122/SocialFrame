@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.socialframe.Activities.OpenModel
@@ -34,6 +35,16 @@ class CommentsAdapter(var arr:MutableList<Comment>):RecyclerView.Adapter<Comment
                 var user=snapshot.getValue(User::class.java)
                 holder.username.setText(user!!.Name)
                 Glide.with(OpenModel.mycontext!!).load(user!!.MyPICUrl).placeholder(R.drawable.empty_profile).into(holder.userimage)
+                holder.userimage.setOnClickListener(){
+                    if (OpenModel.CurrentUser.value!!.key != user.key) {
+                        OpenModel.VisitedUser.value = user
+                    }
+                }
+                holder.username.setOnClickListener(){
+                    if (OpenModel.CurrentUser.value!!.key != user.key) {
+                        OpenModel.VisitedUser.value = user
+                    }
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

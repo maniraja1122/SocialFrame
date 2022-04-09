@@ -59,7 +59,9 @@ class HomeActivity : AppCompatActivity() {
                     transaction.commit()
                 }
                 R.id.notificationbtn -> {
-
+                    var transaction = supportFragmentManager.beginTransaction()
+                    transaction.replace(binding.fragmentContainerView.id,Notifications())
+                    transaction.commit()
                 }
             }
             true
