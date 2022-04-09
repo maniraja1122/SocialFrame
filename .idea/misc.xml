@@ -20,6 +20,10 @@
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/post_layout.xml" value="0.25" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/searchidlayout.xml" value="0.25" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/menu/bottommenu.xml" value="0.27291666666666664" />
+        <entry key="app/src/main/res/layout/comment_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.2" />
+        <entry key="app/src/main/res/layout/fragment_create_post.xml" value="0.22509057971014493" />
+        <entry key="app/src/main/res/layout/post_layout.xml" value="0.22509057971014493" />
       </map>
     </option>
   </component>

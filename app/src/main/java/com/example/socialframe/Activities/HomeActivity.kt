@@ -64,12 +64,18 @@ class HomeActivity : AppCompatActivity() {
             }
             true
         }
-
-
         OpenModel.VisitedUser.observe(this, Observer {
             if(it.Name!="NA") {
                 var transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(binding.fragmentContainerView.id, VisitedProfile())
+                transaction.commit()
+            }
+        })
+        //Change Comment Post
+        OpenModel.OpenedCommentPost.observe(this, Observer {
+            if(it!="") {
+                var transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(binding.fragmentContainerView.id, CommentFragment())
                 transaction.commit()
             }
         })

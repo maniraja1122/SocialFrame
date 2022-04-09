@@ -100,6 +100,9 @@ class PostAdapter(var context:Context,var arr:List<Post>):RecyclerView.Adapter<P
                 holder.likebtn.setText((arr[position].Likes.size).toString())
             }
         }
+        holder.commentbtn.setOnClickListener(){
+            OpenModel.OpenedCommentPost.value=arr[position].key
+        }
     }
 
     override fun getItemCount(): Int {

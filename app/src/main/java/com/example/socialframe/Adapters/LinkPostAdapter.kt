@@ -44,7 +44,7 @@ class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User)
         return arr.size
     }
 
-    override fun onBindViewHolder(holder: LinkPostAdapter.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: LinkPostAdapter.MyViewHolder, @SuppressLint("RecyclerView") position: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             async {
         AuthHelper.manager.db.reference.child("Posts").child(arr[position]).addListenerForSingleValueEvent(object:ValueEventListener{
@@ -93,6 +93,9 @@ class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User)
                         holder.likebtn.setBackgroundColor(Color.RED)
                         holder.likebtn.setText((post.Likes.size).toString())
                     }
+                }
+                holder.commentbtn.setOnClickListener(){
+                    OpenModel.OpenedCommentPost.value=arr[position]
                 }
             }
 

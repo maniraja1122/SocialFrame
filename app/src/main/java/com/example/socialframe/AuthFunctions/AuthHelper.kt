@@ -5,6 +5,7 @@ import android.net.Uri
 import android.widget.Toast
 import com.example.socialframe.Activities.OpenModel
 import com.example.socialframe.Repository.FirebaseManager
+import com.example.socialframe.classes.Comment
 import com.example.socialframe.classes.Post
 import com.example.socialframe.classes.User
 import com.google.firebase.database.DataSnapshot
@@ -57,6 +58,21 @@ object AuthHelper {
                 manager.db.reference.child("Posts").child(post.key).setValue(post)
             }
         }
+    }
+    fun AddComment(postkey:String,newcomment:String){
+        manager.db.reference.child("Posts").child(postkey).addListenerForSingleValueEvent(object:ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                var post = snapshot.getValue(Post::class.java)
+                var comment=Comment(newcomment, OpenModel.CurrentUser.value!!.key)
+                post!!.Comments.add(comment)
+                UpdatePost(post)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
     fun AFollowedB(user1:User,user2:User){
         var currentuser :User?=null

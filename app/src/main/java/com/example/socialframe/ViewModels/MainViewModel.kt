@@ -26,6 +26,7 @@ class MainViewModel:ViewModel() {
     var AllPosts:MutableLiveData<List<Post>> = MutableLiveData()
     var AllUsers:MutableLiveData<List<User>> = MutableLiveData()
     var VisitedUser:MutableLiveData<User> = MutableLiveData()
+    var OpenedCommentPost:MutableLiveData<String> =MutableLiveData()
     var mycontext:Context?=null
     //Functions
     fun UpdateUI(){
@@ -141,6 +142,7 @@ class MainViewModel:ViewModel() {
         AllUsers.value= mutableListOf()
         CurrentUser.value=User()
         VisitedUser.value=User()
+        OpenedCommentPost.value=""
         CoroutineScope(Dispatchers.IO).launch{
             async{
                 SetUI()
