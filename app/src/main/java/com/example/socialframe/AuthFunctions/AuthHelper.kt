@@ -27,7 +27,13 @@ object AuthHelper {
             }
         }
     }
-
+    fun UpdateReadNotifications(newcount:Int){
+        CoroutineScope(Dispatchers.IO).launch {
+            async {
+                manager.db.getReference().child("Users").child(OpenModel.CurrentUser.value!!.key).child("readNotifications").setValue(newcount)
+            }
+        }
+    }
     fun CreatePost(post: Post, uri: Uri): String {
         val dialog = ProgressDialog(OpenModel.mycontext)
         dialog.setMessage("Posting.....")

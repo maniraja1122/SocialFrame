@@ -9,5 +9,6 @@ class User(var Name:String="NA",var Email:String="NA",var Password:String="NA") 
     var Followers:MutableList<String> = mutableListOf<String>()
     var MyPosts:MutableList<String> = mutableListOf<String>()
     var MyNotifications:MutableList<Notifications> = mutableListOf<Notifications>()
+    var ReadNotifications:Int=0
     var MyPICUrl:String=""
 }

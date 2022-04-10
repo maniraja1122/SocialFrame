@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.socialframe.Activities.OpenModel
 import com.example.socialframe.Adapters.NotificationsAdapter
+import com.example.socialframe.AuthFunctions.AuthHelper
 import com.example.socialframe.R
 import com.example.socialframe.databinding.FragmentNotificationsBinding
 
@@ -34,6 +35,7 @@ class Notifications : Fragment() {
                             LinearLayoutManager(OpenModel.mycontext)
                         binding.allnotifications.adapter = adapter1
                     }
+                    AuthHelper.UpdateReadNotifications(it!!.MyNotifications.size)
                 }
             })
         }

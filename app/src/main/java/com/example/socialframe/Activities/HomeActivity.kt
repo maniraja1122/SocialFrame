@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentTransaction
@@ -80,6 +81,13 @@ class HomeActivity : AppCompatActivity() {
                 transaction.replace(binding.fragmentContainerView.id, CommentFragment())
                 transaction.commit()
             }
+        })
+        //Changing Notifications + Messages
+        OpenModel.CurrentUser.observe(this, Observer {
+            var totalcount = it.MyNotifications.size
+            var readcount=it.ReadNotifications
+            var notificationsno=totalcount-readcount
+            binding.bottomnav.getOrCreateBadge(R.id.notificationbtn).number = notificationsno
         })
         //Updating UI
         GlobalScope.launch(Dispatchers.IO) {
