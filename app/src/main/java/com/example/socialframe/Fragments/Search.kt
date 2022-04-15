@@ -15,6 +15,10 @@ import com.example.socialframe.Adapters.MyRecyclerViewAdapter
 import com.example.socialframe.ViewModels.MainViewModel
 import com.example.socialframe.classes.User
 import com.example.socialframe.databinding.FragmentSearchBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 class Search : Fragment() {
@@ -31,9 +35,11 @@ class Search : Fragment() {
         binding.recyclerView2.layoutManager=LinearLayoutManager(OpenModel.mycontext)
         binding.recyclerView2.adapter=adapter
         mymodel.AllUsers.observe(requireActivity(), Observer {
-            adapter=MyRecyclerViewAdapter(OpenModel.mycontext, it)
-            binding.recyclerView2.layoutManager=LinearLayoutManager(OpenModel.mycontext)
-            binding.recyclerView2.adapter=adapter
+            CoroutineScope(Dispatchers.Main).launch { async {
+                adapter = MyRecyclerViewAdapter(OpenModel.mycontext, it)
+                binding.recyclerView2.layoutManager = LinearLayoutManager(OpenModel.mycontext)
+                binding.recyclerView2.adapter = adapter
+            }}
         })
         binding.editTextTextPersonName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}

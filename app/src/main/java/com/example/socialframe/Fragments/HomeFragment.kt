@@ -13,6 +13,10 @@ import com.example.socialframe.Adapters.PostAdapter
 import com.example.socialframe.R
 import com.example.socialframe.ViewModels.MainViewModel
 import com.example.socialframe.databinding.FragmentHomeBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment() {
@@ -32,9 +36,11 @@ class HomeFragment : Fragment() {
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,CreatePost()).commit()
         }
         mymodel.AllPosts.observe(requireActivity(), Observer {
-            var adapter = PostAdapter(OpenModel.mycontext!!,it)
-            binding.recyclerView.layoutManager=LinearLayoutManager(OpenModel.mycontext)
-            binding.recyclerView.adapter=adapter
+            CoroutineScope(Dispatchers.Main).launch { async {
+                var adapter = PostAdapter(OpenModel.mycontext!!, it)
+                binding.recyclerView.layoutManager = LinearLayoutManager(OpenModel.mycontext)
+                binding.recyclerView.adapter = adapter
+            }}
         })
         return binding.root
     }

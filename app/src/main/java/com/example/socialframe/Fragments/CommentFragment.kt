@@ -42,12 +42,19 @@ class CommentFragment : Fragment() {
                         binding.allcomments.adapter=adapter
                         binding.allcomments.scrollToPosition(CurrentPost.Comments.size - 1);
                         binding.compostheading.setText(CurrentPost!!.title)
-                        Glide.with(OpenModel.mycontext!!).load(CurrentPost.imagelink).placeholder(R.drawable.empty_profile).into(binding.compostimage)
+                        CoroutineScope(Dispatchers.Main).launch { async {
+                            Glide.with(OpenModel.mycontext!!).load(CurrentPost.imagelink)
+                                .placeholder(R.drawable.empty_profile).into(binding.compostimage)
+                        }}
                         AuthHelper.manager.db.reference.child("Users").child(CurrentPost.author).addListenerForSingleValueEvent(object :ValueEventListener{
                             override fun onDataChange(snapshot: DataSnapshot) {
                                 var user=snapshot.getValue(User::class.java)
-                                Glide.with(OpenModel.mycontext!!).load(user!!.MyPICUrl).placeholder(R.drawable.empty_profile).into(binding.comuserimage)
-                                binding.comusername.setText(user.Name)
+                                CoroutineScope(Dispatchers.Main).launch { async {
+                                    Glide.with(OpenModel.mycontext!!).load(user!!.MyPICUrl)
+                                        .placeholder(R.drawable.empty_profile)
+                                        .into(binding.comuserimage)
+                                }}
+                                binding.comusername.setText(user!!.Name)
                                 binding.comuserimage.setOnClickListener(){
                                     if (OpenModel.CurrentUser.value!!.key != user.key) {
                                         OpenModel.VisitedUser.value = user

@@ -17,6 +17,10 @@ import com.example.socialframe.AuthFunctions.AuthHelper
 import com.example.socialframe.R
 import com.example.socialframe.classes.Post
 import com.example.socialframe.databinding.FragmentCreatePostBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 class CreatePost : Fragment() {
@@ -55,7 +59,9 @@ class CreatePost : Fragment() {
         if(requestCode==1002 && resultCode== Activity.RESULT_OK){
             var url = data?.data
             postimage=url
-            Glide.with(OpenModel.mycontext!!).load(url).into(binding.imageView);
+            CoroutineScope(Dispatchers.Main).launch { async {
+                Glide.with(OpenModel.mycontext!!).load(url).into(binding.imageView);
+            }}
         }
         super.onActivityResult(requestCode, resultCode, data)
     }

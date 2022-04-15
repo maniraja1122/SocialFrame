@@ -1,11 +1,11 @@
 package com.example.socialframe.Fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.socialframe.Activities.OpenModel
@@ -31,29 +31,29 @@ class MessageBox : Fragment() {
         var binding:FragmentMessageBoxBinding= FragmentMessageBoxBinding.inflate(inflater,container,false)
         try {
             if(OpenModel.AllMessages.value!!.containsKey(OpenModel.MessageReciever.value!!.key)) {
-                var adapter = MessageAdapter(
-                    OpenModel.mycontext!!,
-                    (OpenModel.AllMessages.value!![OpenModel.MessageReciever.value!!.key]!!.value)!!
-                )
-                binding.allmessages.layoutManager = LinearLayoutManager(OpenModel.mycontext)
-                binding.allmessages.adapter = adapter
-                binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount()-1);
+                    var adapter = MessageAdapter(
+                        OpenModel.mycontext!!,
+                        (OpenModel.AllMessages.value!![OpenModel.MessageReciever.value!!.key]!!.value)!!
+                    )
+                    binding.allmessages.layoutManager = LinearLayoutManager(OpenModel.mycontext)
+                    binding.allmessages.adapter = adapter
+                    binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount() - 1);
             }
             else{
-                var arrlist=
-                    (OpenModel.AllMessages.value!![OpenModel.MessageReciever.value!!.key]!!.value)
-                if (arrlist != null) {
-                    var newlist:MutableList<MessageModel> = mutableListOf()
-                    newlist.addAll(arrlist)
-                    templist=newlist
-                }
-                var adapter = MessageAdapter(
+                    var arrlist =
+                        (OpenModel.AllMessages.value!![OpenModel.MessageReciever.value!!.key]!!.value)
+                    if (arrlist != null) {
+                        var newlist: MutableList<MessageModel> = mutableListOf()
+                        newlist.addAll(arrlist)
+                        templist = newlist
+                    }
+                    var adapter = MessageAdapter(
                         OpenModel.mycontext!!,
-                templist
-                )
-                binding.allmessages.layoutManager = LinearLayoutManager(OpenModel.mycontext)
-                binding.allmessages.adapter = adapter
-                binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount()-1);
+                        templist
+                    )
+                    binding.allmessages.layoutManager = LinearLayoutManager(OpenModel.mycontext)
+                    binding.allmessages.adapter = adapter
+                    binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount() - 1);
             }
         }
         catch (e:Exception){
@@ -66,22 +66,24 @@ class MessageBox : Fragment() {
                 requireActivity(),
                 Observer {
                     if (binding.allmessages.adapter!=null && it.size != binding.allmessages.adapter!!.itemCount) {
-                        var adapter1 = MessageAdapter(
-                            OpenModel.mycontext!!,
-                            it
-                        )
-                        binding.allmessages.layoutManager = LinearLayoutManager(OpenModel.mycontext)
-                        binding.allmessages.adapter = adapter1
-                        binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount() - 1);
+                            var adapter1 = MessageAdapter(
+                                OpenModel.mycontext!!,
+                                it
+                            )
+                            binding.allmessages.layoutManager =
+                                LinearLayoutManager(OpenModel.mycontext)
+                            binding.allmessages.adapter = adapter1
+                            binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount() - 1);
                     }
                     else if(binding.allmessages.adapter==null){
-                        var adapter1 = MessageAdapter(
-                            OpenModel.mycontext!!,
-                            it
-                        )
-                        binding.allmessages.layoutManager = LinearLayoutManager(OpenModel.mycontext)
-                        binding.allmessages.adapter = adapter1
-                        binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount() - 1)
+                            var adapter1 = MessageAdapter(
+                                OpenModel.mycontext!!,
+                                it
+                            )
+                            binding.allmessages.layoutManager =
+                                LinearLayoutManager(OpenModel.mycontext)
+                            binding.allmessages.adapter = adapter1
+                            binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount() - 1)
                     }
                 })
         }
@@ -93,17 +95,24 @@ class MessageBox : Fragment() {
                         AuthHelper.SendMessage(OpenModel.CurrentUser.value!!.key, OpenModel.MessageReciever.value!!.key,newmessage)
                     }
                 }
-                if(!OpenModel.AllMessages.value!!.containsKey(OpenModel.MessageReciever.value!!.key)) {
-                    templist.add(MessageModel(newmessage, 1))
-                    //Temporary
-                    var adapter2 = MessageAdapter(
-                        OpenModel.mycontext!!,
-                        templist
-                    )
-                    binding.allmessages.layoutManager = LinearLayoutManager(OpenModel.mycontext)
-                    binding.allmessages.adapter = adapter2
-                    binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount() - 1);
-                }
+                        if (!OpenModel.AllMessages.value!!.containsKey(OpenModel.MessageReciever.value!!.key)) {
+                            Log.v("mani","A new message added")
+                            templist.add(MessageModel(newmessage, 1))
+                            //Temporary
+                            CoroutineScope(Dispatchers.Main).launch {
+                                async {
+                                    var adapter2 = MessageAdapter(
+                                        OpenModel.mycontext!!,
+                                        templist
+                                    )
+                                    binding.allmessages.layoutManager =
+                                        LinearLayoutManager(OpenModel.mycontext)
+                                    binding.allmessages.adapter = adapter2
+                                    binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount() - 1);
+                                    requireActivity().supportFragmentManager.beginTransaction()
+                                        .replace(R.id.fragmentContainerView, MessageBox()).commit()
+                                } }
+                        }
                 binding.entertext.setText("")
         }
             else{

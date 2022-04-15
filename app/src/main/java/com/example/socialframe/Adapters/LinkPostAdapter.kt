@@ -53,12 +53,18 @@ class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User)
             override fun onDataChange(snapshot: DataSnapshot) {
                 var post = snapshot.getValue(Post::class.java)
                 holder.title.setText(post!!.title)
-                Glide.with(context).load(post.imagelink).placeholder(R.drawable.empty_profile).into(holder.postimage);
+                CoroutineScope(Dispatchers.Main).launch { async {
+                    Glide.with(context).load(post.imagelink).placeholder(R.drawable.empty_profile)
+                        .into(holder.postimage);
+                }}
                 holder.likebtn.setText(post.Likes.size.toString())
                 holder.commentbtn.setText(post.Comments.size.toString())
                 //Fetching and Adding User
                 holder.username.setText(user!!.Name)
-                Glide.with(context).load(user.MyPICUrl).placeholder(R.drawable.empty_profile).into(holder.userimage);
+                CoroutineScope(Dispatchers.Main).launch { async {
+                    Glide.with(context).load(user.MyPICUrl).placeholder(R.drawable.empty_profile)
+                        .into(holder.userimage);
+                }}
                 holder.userimage.setOnClickListener(){
                     if (OpenModel.CurrentUser.value!!.key != user.key) {
                         OpenModel.VisitedUser.value = user
@@ -80,40 +86,41 @@ class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User)
                 }
                 //Listener
                 holder.likebtn.setOnClickListener(){
-                    if(post.Likes.contains(OpenModel.CurrentUser.value!!.key)){
-                        post.Likes.remove(OpenModel.CurrentUser.value!!.key)
-                        AuthHelper.UpdatePost(post)
-                        //Temporary Update
-                        holder.likebtn.setBackgroundColor(R.color.fore_500)
-                        holder.likebtn.setText((post.Likes.size).toString())
-                    }
-                    else{
-                        post.Likes.add(OpenModel.CurrentUser.value!!.key)
-                        AuthHelper.UpdatePost(post)
-                        //Notified
-                        if(post.author!= OpenModel.CurrentUser.value!!.key) {
-                            AuthHelper.manager.db.reference.child("Users").child(post.author)
-                                .addListenerForSingleValueEvent(object : ValueEventListener {
-                                    override fun onDataChange(snapshot: DataSnapshot) {
-                                        var myuser = snapshot.getValue(User::class.java)
-                                        var newnotification = Notifications(
-                                            "post",
-                                            "Someone liked your post", post.key
-                                        )
-                                        myuser!!.MyNotifications.add(newnotification)
-                                        AuthHelper.AddUser(myuser)
-                                    }
+                    CoroutineScope(Dispatchers.Main).launch { async {
+                        if (post.Likes.contains(OpenModel.CurrentUser.value!!.key)) {
+                            post.Likes.remove(OpenModel.CurrentUser.value!!.key)
+                            AuthHelper.UpdatePost(post)
+                            //Temporary Update
+                            holder.likebtn.setBackgroundColor(R.color.fore_500)
+                            holder.likebtn.setText((post.Likes.size).toString())
+                        } else {
+                            post.Likes.add(OpenModel.CurrentUser.value!!.key)
+                            AuthHelper.UpdatePost(post)
+                            //Notified
+                            if (post.author != OpenModel.CurrentUser.value!!.key) {
+                                AuthHelper.manager.db.reference.child("Users").child(post.author)
+                                    .addListenerForSingleValueEvent(object : ValueEventListener {
+                                        override fun onDataChange(snapshot: DataSnapshot) {
+                                            var myuser = snapshot.getValue(User::class.java)
+                                            var newnotification = Notifications(
+                                                "post",
+                                                "Someone liked your post", post.key
+                                            )
+                                            myuser!!.MyNotifications.add(newnotification)
+                                            AuthHelper.AddUser(myuser)
+                                        }
 
-                                    override fun onCancelled(error: DatabaseError) {
-                                        TODO("Not yet implemented")
-                                    }
+                                        override fun onCancelled(error: DatabaseError) {
+                                            TODO("Not yet implemented")
+                                        }
 
-                                })
+                                    })
+                            }
+                            //Temporary Update
+                            holder.likebtn.setBackgroundColor(Color.RED)
+                            holder.likebtn.setText((post.Likes.size).toString())
                         }
-                        //Temporary Update
-                        holder.likebtn.setBackgroundColor(Color.RED)
-                        holder.likebtn.setText((post.Likes.size).toString())
-                    }
+                    }}
                 }
                 holder.commentbtn.setOnClickListener(){
                     OpenModel.OpenedCommentPost.value=arr[position]

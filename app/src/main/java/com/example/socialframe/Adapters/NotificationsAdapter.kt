@@ -39,9 +39,13 @@ class NotificationsAdapter(var arr:List<Notifications>):RecyclerView.Adapter<Not
                     AuthHelper.manager.db.reference.child("Posts").child(arr[position].VisitingUnit).addListenerForSingleValueEvent(object:ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
                             var mypost=snapshot.getValue(Post::class.java)
-                            Glide.with(OpenModel.mycontext!!).load(mypost!!.imagelink).placeholder(R.drawable.empty_profile).into(holder.notificationimage);
+                            CoroutineScope(Dispatchers.Main).launch { async {
+                                Glide.with(OpenModel.mycontext!!).load(mypost!!.imagelink)
+                                    .placeholder(R.drawable.empty_profile)
+                                    .into(holder.notificationimage);
+                            }}
                             holder.itemView.setOnClickListener(){
-                                OpenModel.OpenedCommentPost.value=mypost.key
+                                OpenModel.OpenedCommentPost.value=mypost!!.key
                             }
                         }
 
@@ -58,7 +62,11 @@ class NotificationsAdapter(var arr:List<Notifications>):RecyclerView.Adapter<Not
                     AuthHelper.manager.db.reference.child("Users").child(arr[position].VisitingUnit).addListenerForSingleValueEvent(object:ValueEventListener{
                         override fun onDataChange(snapshot: DataSnapshot) {
                             var myuser=snapshot.getValue(User::class.java)
-                            Glide.with(OpenModel.mycontext!!).load(myuser!!.MyPICUrl).placeholder(R.drawable.empty_profile).into(holder.notificationimage);
+                            CoroutineScope(Dispatchers.Main).launch { async {
+                                Glide.with(OpenModel.mycontext!!).load(myuser!!.MyPICUrl)
+                                    .placeholder(R.drawable.empty_profile)
+                                    .into(holder.notificationimage);
+                            }}
                             holder.itemView.setOnClickListener(){
                                 OpenModel.VisitedUser.value=myuser
                             }

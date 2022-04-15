@@ -57,7 +57,6 @@ object AuthHelper {
         }
         return key
     }
-
     fun UpdatePost(post: Post) {
         CoroutineScope(Dispatchers.IO).launch {
             async {
@@ -65,7 +64,6 @@ object AuthHelper {
             }
         }
     }
-
     fun AddComment(postkey: String, newcomment: String) {
         CoroutineScope(Dispatchers.IO).launch {
             async {
@@ -101,7 +99,7 @@ object AuthHelper {
                     })
             }
         }}
-            fun AFollowedB(user1: User, user2: User) {
+    fun AFollowedB(user1: User, user2: User) {
                 var currentuser: User? = null
                 var visiteduser: User? = null
                 CoroutineScope(Dispatchers.IO).launch {
@@ -138,8 +136,7 @@ object AuthHelper {
                     }
                 }
             }
-
-            fun AUnfollowedB(user1: User, user2: User) {
+    fun AUnfollowedB(user1: User, user2: User) {
                 var currentuser: User? = null
                 var visiteduser: User? = null
                 CoroutineScope(Dispatchers.IO).launch {
@@ -174,8 +171,7 @@ object AuthHelper {
                     }
                 }
             }
-
-            fun DeletePosts(key: String) {
+    fun DeletePosts(key: String) {
                 CoroutineScope(Dispatchers.IO).launch {
                     async {
                         async {
@@ -208,7 +204,7 @@ object AuthHelper {
                     }
                 }
             }
-            fun SendMessage(user1:String,user2:String,message:String){
+    fun SendMessage(user1:String,user2:String,message:String){
                 CoroutineScope(Dispatchers.IO).launch {
                     async {
                         var newmessage = MessageModel(message,1)

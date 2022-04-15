@@ -16,6 +16,10 @@ import com.example.socialframe.classes.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class CommentsAdapter(var arr:MutableList<Comment>):RecyclerView.Adapter<CommentsAdapter.ViewHolder>() {
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
@@ -30,11 +34,16 @@ class CommentsAdapter(var arr:MutableList<Comment>):RecyclerView.Adapter<Comment
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.commentcontent.setText(arr[position].text)
+        CoroutineScope(Dispatchers.IO).launch {
+            async {
         AuthHelper.manager.db.reference.child("Users").child(arr[position].userkey).addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 var user=snapshot.getValue(User::class.java)
                 holder.username.setText(user!!.Name)
-                Glide.with(OpenModel.mycontext!!).load(user!!.MyPICUrl).placeholder(R.drawable.empty_profile).into(holder.userimage)
+                CoroutineScope(Dispatchers.Main).launch { async {
+                    Glide.with(OpenModel.mycontext!!).load(user!!.MyPICUrl)
+                        .placeholder(R.drawable.empty_profile).into(holder.userimage)
+                }}
                 holder.userimage.setOnClickListener(){
                     if (OpenModel.CurrentUser.value!!.key != user.key) {
                         OpenModel.VisitedUser.value = user
@@ -52,6 +61,8 @@ class CommentsAdapter(var arr:MutableList<Comment>):RecyclerView.Adapter<Comment
             }
 
         })
+            }
+        }
     }
 
     override fun getItemCount(): Int {

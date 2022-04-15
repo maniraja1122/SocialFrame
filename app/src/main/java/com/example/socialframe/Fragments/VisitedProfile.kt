@@ -20,6 +20,10 @@ import com.example.socialframe.R
 import com.example.socialframe.ViewModels.MainViewModel
 import com.example.socialframe.databinding.FragmentProfileBinding
 import com.example.socialframe.databinding.FragmentVisitedProfileBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 class VisitedProfile : Fragment() {
@@ -44,28 +48,37 @@ class VisitedProfile : Fragment() {
         }
         //Adding Follow Button
         binding.followers.setOnClickListener(){
-            if(mymodel.CurrentUser.value?.Followed!!.contains(mymodel.VisitedUser.value?.key)){
-                binding.followers.setBackgroundColor(R.color.fore_500)
-                AuthHelper.AUnfollowedB(OpenModel.CurrentUser.value!!,mymodel.VisitedUser.value!!)
-                mymodel.VisitedUser.value!!.Followers.remove(OpenModel.CurrentUser.value!!.key)
-                OpenModel.CurrentUser.value!!.Followed.remove(mymodel.VisitedUser.value!!.key)
-                binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
-            }
-            else{
-                binding.followers.setBackgroundColor(Color.RED)
-                AuthHelper.AFollowedB(OpenModel.CurrentUser.value!!,mymodel.VisitedUser.value!!)
-                mymodel.VisitedUser.value!!.Followers.add(OpenModel.CurrentUser.value!!.key)
-                OpenModel.CurrentUser.value!!.Followed.add(mymodel.VisitedUser.value!!.key)
-                binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
-            }
+            CoroutineScope(Dispatchers.Main).launch { async {
+                if (mymodel.CurrentUser.value?.Followed!!.contains(mymodel.VisitedUser.value?.key)) {
+                    binding.followers.setBackgroundColor(R.color.fore_500)
+                    AuthHelper.AUnfollowedB(
+                        OpenModel.CurrentUser.value!!,
+                        mymodel.VisitedUser.value!!
+                    )
+                    mymodel.VisitedUser.value!!.Followers.remove(OpenModel.CurrentUser.value!!.key)
+                    OpenModel.CurrentUser.value!!.Followed.remove(mymodel.VisitedUser.value!!.key)
+                    binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
+                } else {
+                    binding.followers.setBackgroundColor(Color.RED)
+                    AuthHelper.AFollowedB(
+                        OpenModel.CurrentUser.value!!,
+                        mymodel.VisitedUser.value!!
+                    )
+                    mymodel.VisitedUser.value!!.Followers.add(OpenModel.CurrentUser.value!!.key)
+                    OpenModel.CurrentUser.value!!.Followed.add(mymodel.VisitedUser.value!!.key)
+                    binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
+                }
+            }}
         }
         //Setting Recycler
         var adapter =
             LinkPostAdapter(OpenModel.mycontext!!, mymodel.VisitedUser.value!!.MyPosts.reversed(),mymodel.VisitedUser.value!!)
         binding.myposts.layoutManager = LinearLayoutManager(OpenModel.mycontext)
         binding.myposts.adapter = adapter
-        Glide.with(OpenModel.mycontext!!).load(mymodel.VisitedUser.value!!.MyPICUrl)
-            .placeholder(R.drawable.empty_profile).into(binding.profilephoto)
+        CoroutineScope(Dispatchers.Main).launch { async {
+            Glide.with(OpenModel.mycontext!!).load(mymodel.VisitedUser.value!!.MyPICUrl)
+                .placeholder(R.drawable.empty_profile).into(binding.profilephoto)
+        }}
         mymodel.VisitedUser.observe(requireActivity(), Observer {
             binding.profilename.setText(it.Name)
             binding.profiledesc.setText(it.Description)
@@ -74,13 +87,18 @@ class VisitedProfile : Fragment() {
             if(mymodel.CurrentUser.value?.Followed!!.contains(mymodel.VisitedUser.value?.key)){
                 binding.followers.setBackgroundColor(Color.RED)
             }
-            Glide.with(OpenModel.mycontext!!).load(mymodel.VisitedUser.value!!.MyPICUrl)
-                .placeholder(R.drawable.empty_profile).into(binding.profilephoto)
+            CoroutineScope(Dispatchers.Main).launch { async {
+                Glide.with(OpenModel.mycontext!!).load(mymodel.VisitedUser.value!!.MyPICUrl)
+                    .placeholder(R.drawable.empty_profile).into(binding.profilephoto)
+            }}
             //Updating Recycler
             if (it.MyPosts.size != binding.myposts.adapter!!.itemCount) {
-                var adapter = LinkPostAdapter(OpenModel.mycontext!!, it!!.MyPosts.reversed(),it)
-                binding.myposts.layoutManager = LinearLayoutManager(OpenModel.mycontext)
-                binding.myposts.adapter = adapter
+                CoroutineScope(Dispatchers.Main).launch { async {
+                    var adapter =
+                        LinkPostAdapter(OpenModel.mycontext!!, it!!.MyPosts.reversed(), it)
+                    binding.myposts.layoutManager = LinearLayoutManager(OpenModel.mycontext)
+                    binding.myposts.adapter = adapter
+                }}
             }
         })
 

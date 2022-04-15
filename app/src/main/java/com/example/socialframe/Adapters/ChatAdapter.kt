@@ -10,6 +10,10 @@ import com.bumptech.glide.Glide
 import com.example.socialframe.Activities.OpenModel
 import com.example.socialframe.R
 import com.example.socialframe.classes.Chat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class ChatAdapter(var arr: MutableList<Chat>):RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
     class ViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
@@ -23,7 +27,10 @@ class ChatAdapter(var arr: MutableList<Chat>):RecyclerView.Adapter<ChatAdapter.V
         return ViewHolder(v)
     }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(OpenModel.mycontext!!).load(arr[position].ChatUser.MyPICUrl).placeholder(R.drawable.empty_profile).into(holder.chatimage)
+        CoroutineScope(Dispatchers.Main).launch { async {
+            Glide.with(OpenModel.mycontext!!).load(arr[position].ChatUser.MyPICUrl)
+                .placeholder(R.drawable.empty_profile).into(holder.chatimage)
+        }}
         holder.chatname.setText(arr[position].ChatUser.Name)
         holder.chatmessage.setText(arr[position].MyMessage.message)
         holder.itemView.setOnClickListener(){

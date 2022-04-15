@@ -12,6 +12,10 @@ import com.example.socialframe.Adapters.NotificationsAdapter
 import com.example.socialframe.AuthFunctions.AuthHelper
 import com.example.socialframe.R
 import com.example.socialframe.databinding.FragmentNotificationsBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 class Notifications : Fragment() {
@@ -23,17 +27,22 @@ class Notifications : Fragment() {
     ): View? {
         inflater.inflate(R.layout.fragment_notifications, container, false)
         var binding = FragmentNotificationsBinding.inflate(inflater,container,false)
-        var adapter = NotificationsAdapter(OpenModel.CurrentUser.value!!.MyNotifications.reversed())
-        binding.allnotifications.layoutManager=LinearLayoutManager(OpenModel.mycontext)
-        binding.allnotifications.adapter=adapter
+        CoroutineScope(Dispatchers.Main).launch { async {
+            var adapter =
+                NotificationsAdapter(OpenModel.CurrentUser.value!!.MyNotifications.reversed())
+            binding.allnotifications.layoutManager = LinearLayoutManager(OpenModel.mycontext)
+            binding.allnotifications.adapter = adapter
+        }}
         try {
             OpenModel.CurrentUser.observe(requireActivity(), Observer {
                 if(it!=null) {
                     if (it.MyNotifications.size != binding.allnotifications.adapter!!.itemCount) {
-                        var adapter1 = NotificationsAdapter(it.MyNotifications.reversed())
-                        binding.allnotifications.layoutManager =
-                            LinearLayoutManager(OpenModel.mycontext)
-                        binding.allnotifications.adapter = adapter1
+                        CoroutineScope(Dispatchers.Main).launch { async {
+                            var adapter1 = NotificationsAdapter(it.MyNotifications.reversed())
+                            binding.allnotifications.layoutManager =
+                                LinearLayoutManager(OpenModel.mycontext)
+                            binding.allnotifications.adapter = adapter1
+                        }}
                     }
                     AuthHelper.UpdateReadNotifications(it!!.MyNotifications.size)
                 }

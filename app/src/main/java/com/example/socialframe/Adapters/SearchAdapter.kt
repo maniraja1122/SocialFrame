@@ -20,6 +20,10 @@ import com.example.socialframe.Fragments.CreatePost
 import com.example.socialframe.Fragments.VisitedProfile
 import com.example.socialframe.R
 import com.example.socialframe.classes.User
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 
 class MyRecyclerViewAdapter(context: Context?, myObjectsList: List<User>) :
@@ -52,34 +56,50 @@ class MyRecyclerViewAdapter(context: Context?, myObjectsList: List<User>) :
                     holder.followButton.visibility=View.INVISIBLE
                 }
             holder.nameTextView.setText(myObjectsList[position].Name)
-            Glide.with(OpenModel.mycontext!!).load(myObjectsList[position].MyPICUrl).placeholder(R.drawable.empty_profile).into(holder.imgImageView)
+            CoroutineScope(Dispatchers.Main).launch { async {
+                Glide.with(OpenModel.mycontext!!).load(myObjectsList[position].MyPICUrl)
+                    .placeholder(R.drawable.empty_profile).into(holder.imgImageView)
+            }}
             holder.followButton.setText(myObjectsList[position].Followers.size.toString())
             if(OpenModel.CurrentUser.value!!.Followed.contains(myObjectsList[position].key)){
                 holder.followButton.setBackgroundColor(Color.RED)
             }
             holder.followButton.setOnClickListener() {
-                if (OpenModel.CurrentUser.value!!.key != myObjectsList[position].key) {
-                    if (!OpenModel.CurrentUser.value!!.Followed.contains(myObjectsList[position].key)) {
-                        //Function
-                        AuthHelper.AFollowedB(OpenModel.CurrentUser.value!!,myObjectsList[position])
-                        //Temporary Show
-                        myObjectsList[position].Followers.add(OpenModel.CurrentUser.value!!.key)
-                        OpenModel.CurrentUser.value!!.Followed.add(myObjectsList[position].key)
-                        holder.followButton.setText((myObjectsList[position].Followers.size).toString())
-                        holder.followButton.setBackgroundColor(Color.RED)
-                    } else {
-                        //Function
-                        AuthHelper.AUnfollowedB(OpenModel.CurrentUser.value!!,myObjectsList[position])
-                        //Temporary Show
-                        myObjectsList[position].Followers.remove(OpenModel.CurrentUser.value!!.key)
-                        OpenModel.CurrentUser.value!!.Followed.remove(myObjectsList[position].key)
-                        holder.followButton.setText((myObjectsList[position].Followers.size).toString())
-                        holder.followButton.setBackgroundColor(R.color.fore_500)
-                    }
+                CoroutineScope(Dispatchers.Main).launch {
+                    async {
+                        if (OpenModel.CurrentUser.value!!.key != myObjectsList[position].key) {
+                            if (!OpenModel.CurrentUser.value!!.Followed.contains(myObjectsList[position].key)) {
+                                //Function
+                                AuthHelper.AFollowedB(
+                                    OpenModel.CurrentUser.value!!,
+                                    myObjectsList[position]
+                                )
+                                //Temporary Show
+                                myObjectsList[position].Followers.add(OpenModel.CurrentUser.value!!.key)
+                                OpenModel.CurrentUser.value!!.Followed.add(myObjectsList[position].key)
+                                holder.followButton.setText((myObjectsList[position].Followers.size).toString())
+                                holder.followButton.setBackgroundColor(Color.RED)
+                            } else {
+                                //Function
+                                AuthHelper.AUnfollowedB(
+                                    OpenModel.CurrentUser.value!!,
+                                    myObjectsList[position]
+                                )
+                                //Temporary Show
+                                myObjectsList[position].Followers.remove(OpenModel.CurrentUser.value!!.key)
+                                OpenModel.CurrentUser.value!!.Followed.remove(myObjectsList[position].key)
+                                holder.followButton.setText((myObjectsList[position].Followers.size).toString())
+                                holder.followButton.setBackgroundColor(R.color.fore_500)
+                            }
+                        }
+                    else{
+                    Toast.makeText(
+                        OpenModel.mycontext,
+                        "You can't follow yourself...",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
-                else{
-                    Toast.makeText(OpenModel.mycontext, "You can't follow yourself...", Toast.LENGTH_SHORT).show()
-                }
+                }}
             }
             holder.nameTextView.setOnClickListener(){
                 if (OpenModel.CurrentUser.value!!.key != myObjectsList[position].key) {
