@@ -9,6 +9,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.socialframe.Activities.OpenModel
 import com.example.socialframe.AuthFunctions.AuthHelper
+import com.example.socialframe.classes.Chat
+import com.example.socialframe.classes.MessageModel
 import com.example.socialframe.classes.Post
 import com.example.socialframe.classes.User
 import com.google.firebase.database.DataSnapshot
@@ -19,6 +21,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import kotlin.math.absoluteValue
+import kotlin.time.Duration.Companion.seconds
 
 
 class MainViewModel:ViewModel() {
@@ -27,16 +31,23 @@ class MainViewModel:ViewModel() {
     var AllUsers:MutableLiveData<List<User>> = MutableLiveData()
     var VisitedUser:MutableLiveData<User> = MutableLiveData()
     var OpenedCommentPost:MutableLiveData<String> =MutableLiveData()
+    var MessageReciever:MutableLiveData<User> = MutableLiveData() // Reciever
+    var AllMessages:MutableLiveData<HashMap<String,MutableLiveData<List<MessageModel>>>> = MutableLiveData()
+    var AllChats:MutableLiveData<MutableList<Chat>> = MutableLiveData()
     var mycontext:Context?=null
     //Functions
     fun UpdateUI(){
         UpdateUser()
         UpdateAllPosts()
         UpdateAllUsers()
+        UpdateMessages()
+        UpdateChats()
     }
     fun SetUI(){
         SetUser()
         SetAllUsers()
+        SetMessages()
+        SetChats()
     }
     fun SetAllUsers(){
         //Single Time
@@ -122,7 +133,148 @@ class MainViewModel:ViewModel() {
                 })
             }
         }
-
+    }
+    fun UpdateMessages(){
+        //Every Time
+        CoroutineScope(Dispatchers.IO).launch{
+            async{
+                AuthHelper.manager.db.getReference().child("Messages").child(AuthHelper.manager.auth.uid.toString()).addValueEventListener(object :ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for(childsnaps in snapshot.children){
+                            var key = childsnaps.key
+                            var messagelist=childsnaps.children.mapNotNull {
+                                it.getValue(MessageModel::class.java)
+                            }.toList()
+                            if(AllMessages.value!!.containsKey(key!!)) {
+                                AllMessages.value!![key!!]!!.value = messagelist
+                            }
+                            else{
+                                AllMessages.value!![key!!]= MutableLiveData()
+                                AllMessages.value!![key!!]!!.value=messagelist
+                            }
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
+            }
+        }
+    }
+    fun SetMessages(){
+        //Single Time
+        CoroutineScope(Dispatchers.IO).launch{
+            async{
+                AuthHelper.manager.db.getReference().child("Messages").child(AuthHelper.manager.auth.uid.toString()).addListenerForSingleValueEvent(object :ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for(childsnaps in snapshot.children){
+                            var key = childsnaps.key
+                            var messagelist=childsnaps.children.mapNotNull {
+                                it.getValue(MessageModel::class.java)
+                            }.toList()
+                            AllMessages.value!![key!!]= MutableLiveData()
+                            AllMessages.value!![key!!]!!.value=messagelist
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
+            }
+        }
+    }
+    //Setting and Updating For Chats
+    fun SetChats(){
+        //Update Time
+        CoroutineScope(Dispatchers.IO).launch{
+            async{
+                AuthHelper.manager.db.getReference().child("Messages").child(AuthHelper.manager.auth.uid.toString()).addListenerForSingleValueEvent(object :ValueEventListener{
+                    override fun onDataChange(msgsnapshot: DataSnapshot) {
+                        var myallchats= mutableListOf<Chat>()
+                        var index=0
+                        for(childsnaps in msgsnapshot.children){
+                            var key = childsnaps.key
+                            var messagelist=childsnaps.children.mapNotNull {
+                                it.getValue(MessageModel::class.java)
+                            }.toList()
+                            AuthHelper.manager.db.getReference().child("Users").child(key!!).addListenerForSingleValueEvent(object:ValueEventListener{
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    var myuser=snapshot.getValue(User::class.java)
+                                    var mymessage=messagelist.last()
+                                    var newchat=Chat(myuser!!,mymessage)
+                                    myallchats.add(newchat)
+                                    index++
+                                    if(index==(msgsnapshot.childrenCount).toInt()) {
+                                        var change = false
+                                        for (i in 0..AllChats.value!!.size - 1) {
+                                            if (myallchats[i].NotEqual(AllChats.value?.get(i)!!)) {
+                                                change = true
+                                            }
+                                        }
+                                        if (change || myallchats.size != AllChats.value!!.size) {
+                                            myallchats.sortByDescending {
+                                                it.MyMessage.messageTime
+                                            }
+                                            AllChats.value = myallchats
+                                        }
+                                    }
+                                }
+                                override fun onCancelled(error: DatabaseError) {
+                                    TODO("Not yet implemented")
+                                }
+                            })
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
+            }
+        }
+    }
+    fun UpdateChats(){
+        //Update Time
+        CoroutineScope(Dispatchers.IO).launch{
+            async{
+                AuthHelper.manager.db.getReference().child("Messages").child(AuthHelper.manager.auth.uid.toString()).addValueEventListener(object :ValueEventListener{
+                    override fun onDataChange(msgsnapshot: DataSnapshot) {
+                        var myallchats= mutableListOf<Chat>()
+                        var index=0
+                        for(childsnaps in msgsnapshot.children){
+                            var key = childsnaps.key
+                            var messagelist=childsnaps.children.mapNotNull {
+                                it.getValue(MessageModel::class.java)
+                            }.toList()
+                            AuthHelper.manager.db.getReference().child("Users").child(key!!).addListenerForSingleValueEvent(object:ValueEventListener{
+                                override fun onDataChange(snapshot: DataSnapshot) {
+                                    var myuser=snapshot.getValue(User::class.java)
+                                    var mymessage=messagelist.last()
+                                    var newchat=Chat(myuser!!,mymessage)
+                                    myallchats.add(newchat)
+                                    index++
+                                    if(index==(msgsnapshot.childrenCount).toInt()) {
+                                        var change = false
+                                        for (i in 0..AllChats.value!!.size - 1) {
+                                            if (myallchats[i].NotEqual(AllChats.value?.get(i)!!)) {
+                                                change = true
+                                            }
+                                        }
+                                        if (change || myallchats.size != AllChats.value!!.size) {
+                                            myallchats.sortByDescending {
+                                                it.MyMessage.messageTime
+                                            }
+                                            AllChats.value = myallchats
+                                        }
+                                    }
+                                }
+                                override fun onCancelled(error: DatabaseError) {
+                                    TODO("Not yet implemented")
+                                }
+                            })
+                        }
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
+            }
+        }
     }
     fun ChangePic(s: Uri?){
         CoroutineScope(Dispatchers.IO).launch{
@@ -141,9 +293,12 @@ class MainViewModel:ViewModel() {
     init{
         AllPosts.value= mutableListOf()
         AllUsers.value= mutableListOf()
+        AllChats.value= mutableListOf()
+        AllMessages.value= HashMap()
         CurrentUser.value=User()
         VisitedUser.value=User()
         OpenedCommentPost.value=""
+        MessageReciever.value=User()
         CoroutineScope(Dispatchers.IO).launch{
             async{
                 SetUI()

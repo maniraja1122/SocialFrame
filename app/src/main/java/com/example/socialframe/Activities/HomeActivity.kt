@@ -39,7 +39,7 @@ class HomeActivity : AppCompatActivity() {
         }
         messagebtn.setOnClickListener(){
             var transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(binding.fragmentContainerView.id,HomeFragment())
+            transaction.replace(binding.fragmentContainerView.id,ChatBox())
             transaction.commit()
         }
         profilebtn.setOnClickListener(){
@@ -71,6 +71,14 @@ class HomeActivity : AppCompatActivity() {
             if(it.Name!="NA") {
                 var transaction = supportFragmentManager.beginTransaction()
                 transaction.replace(binding.fragmentContainerView.id, VisitedProfile())
+                transaction.commit()
+            }
+        })
+        //Change Message Reciever
+        OpenModel.MessageReciever.observe(this, Observer {
+            if(it.Name!="NA"){
+                var transaction = supportFragmentManager.beginTransaction()
+                transaction.replace(binding.fragmentContainerView.id, MessageBox())
                 transaction.commit()
             }
         })

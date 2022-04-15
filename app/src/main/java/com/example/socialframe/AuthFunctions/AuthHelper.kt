@@ -5,10 +5,7 @@ import android.net.Uri
 import android.widget.Toast
 import com.example.socialframe.Activities.OpenModel
 import com.example.socialframe.Repository.FirebaseManager
-import com.example.socialframe.classes.Comment
-import com.example.socialframe.classes.Notifications
-import com.example.socialframe.classes.Post
-import com.example.socialframe.classes.User
+import com.example.socialframe.classes.*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -181,6 +178,14 @@ object AuthHelper {
             fun DeletePosts(key: String) {
                 CoroutineScope(Dispatchers.IO).launch {
                     async {
+                        async {
+                            var mynotifications = OpenModel.CurrentUser.value!!.MyNotifications.filter {
+                                it.type=="user"
+                            }
+                            manager.db.getReference().child("Users").child(OpenModel.CurrentUser.value!!.key)
+                                .child("myNotifications").setValue(mynotifications)
+                        }
+                        UpdateReadNotifications(0)
                         manager.db.reference.child("Users").child(key).child("myPosts")
                             .addListenerForSingleValueEvent(object : ValueEventListener {
                                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -200,6 +205,20 @@ object AuthHelper {
                                 }
 
                             })
+                    }
+                }
+            }
+            fun SendMessage(user1:String,user2:String,message:String){
+                CoroutineScope(Dispatchers.IO).launch {
+                    async {
+                        var newmessage = MessageModel(message,1)
+                        var key = manager.db.getReference().child("Messages").child(user1).child(user2).push().key
+                        manager.db.getReference().child("Messages").child(user1).child(user2).child(key!!).setValue(newmessage)
+                    }
+                    async {
+                        var newmessage = MessageModel(message,2)
+                        var key = manager.db.getReference().child("Messages").child(user2).child(user1).push().key
+                        manager.db.getReference().child("Messages").child(user2).child(user1).child(key!!).setValue(newmessage)
                     }
                 }
             }

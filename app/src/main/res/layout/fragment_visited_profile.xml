@@ -1,83 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/background"
     tools:context=".Fragments.VisitedProfile">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/followend"
-        app:layout_constraintGuide_percent="0.45"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
 
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/imageend"
-        app:layout_constraintGuide_percent="0.2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.2" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/imagetop"
-        app:layout_constraintGuide_percent="0.05"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.05" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/desend"
-        app:layout_constraintGuide_percent="0.35"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.35" />
 
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/nameend"
-        app:layout_constraintGuide_percent="0.25"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
 
     <ImageView
         android:id="@+id/profilephoto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toTopOf="@+id/imageend"
         app:layout_constraintEnd_toStartOf="@+id/v2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/v1"
         app:layout_constraintTop_toTopOf="@+id/imagetop"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:clickable="true"
-        android:scaleType="fitXY" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/profilename"
-        app:layout_constraintBottom_toTopOf="@+id/nameend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageend"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:fontFamily="@font/baloo"
         android:gravity="center"
         android:text="Abdul Manan Raja"
         android:textColor="#FFFFFF"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/nameend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imageend" />
 
     <TextView
         android:id="@+id/profiledesc"
-        app:layout_constraintBottom_toTopOf="@+id/desend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/nameend"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:editable="false"
@@ -86,7 +82,11 @@
         android:overScrollMode="ifContentScrolls"
         android:text="a man with a motive"
         android:textAlignment="center"
-        android:textColor="#FFFFFF" />
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/desend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/nameend" />
 
     <Button
         android:id="@+id/followers"
@@ -99,32 +99,33 @@
         app:icon="@drawable/ic_baseline_person_add_24"
         app:iconGravity="end"
         app:layout_constraintBottom_toTopOf="@+id/followend"
-        app:layout_constraintEnd_toStartOf="@+id/followed"
+        app:layout_constraintEnd_toStartOf="@+id/msgbtn"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/desend" />
+        app:layout_constraintTop_toTopOf="@+id/desend"
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/followed"
-        app:layout_constraintBottom_toTopOf="@+id/followend"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/followers"
-        app:layout_constraintTop_toTopOf="@+id/desend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/acme"
         android:text="0 Followed"
         android:textColor="#FFFFFF"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/followend"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/msgbtn"
+        app:layout_constraintTop_toTopOf="@+id/desend" />
 
     <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/followend"
-        android:layout_width="match_parent"
-        android:layout_height="0dp">
+        app:layout_constraintTop_toTopOf="@+id/followend">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/myposts"
@@ -136,15 +137,28 @@
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/v1"
-        app:layout_constraintGuide_percent="0.35"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.35" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/v2"
-        app:layout_constraintGuide_percent="0.65"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" />
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <Button
+        android:id="@+id/msgbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Message"
+        app:layout_constraintBottom_toTopOf="@+id/followend"
+        app:layout_constraintEnd_toStartOf="@+id/followed"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/followers"
+        app:layout_constraintTop_toTopOf="@+id/desend"
+        app:layout_constraintVertical_bias="0.5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

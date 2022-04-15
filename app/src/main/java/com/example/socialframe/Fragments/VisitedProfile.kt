@@ -39,6 +39,9 @@ class VisitedProfile : Fragment() {
         if(mymodel.CurrentUser.value?.Followed!!.contains(mymodel.VisitedUser.value?.key)){
             binding.followers.setBackgroundColor(Color.RED)
         }
+        binding.msgbtn.setOnClickListener(){
+            OpenModel.MessageReciever.value= OpenModel.VisitedUser.value
+        }
         //Adding Follow Button
         binding.followers.setOnClickListener(){
             if(mymodel.CurrentUser.value?.Followed!!.contains(mymodel.VisitedUser.value?.key)){
