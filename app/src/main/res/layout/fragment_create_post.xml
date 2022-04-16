@@ -7,6 +7,23 @@
     android:background="@color/background"
     tools:context=".Fragments.CreatePost">
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/showcont"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:cardCornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/gbottom"
+        app:layout_constraintEnd_toStartOf="@+id/gend"
+        app:layout_constraintStart_toStartOf="@+id/g1"
+        app:layout_constraintTop_toTopOf="@+id/gtop">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY" />
+    </androidx.cardview.widget.CardView>
+
     <EditText
         android:id="@+id/posttitle"
         android:layout_width="wrap_content"
@@ -20,7 +37,6 @@
         android:textColorHint="#676767"
         app:layout_constraintBottom_toTopOf="@+id/uploadbtn"
         app:layout_constraintEnd_toStartOf="@+id/gend"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/g1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,21 +44,13 @@
         android:id="@+id/uploadbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_baseline_publish_24"
         android:text="Upload"
-        app:layout_constraintBottom_toTopOf="@+id/publishbtn"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/showcont"
         app:layout_constraintEnd_toStartOf="@+id/gend"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="@+id/g1"
         app:layout_constraintTop_toBottomOf="@+id/posttitle" />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/gbottom"
-        app:layout_constraintEnd_toStartOf="@+id/gend"
-        app:layout_constraintStart_toStartOf="@+id/g1"
-        app:layout_constraintTop_toTopOf="@+id/gtop" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/g1"
@@ -76,9 +84,11 @@
         android:id="@+id/publishbtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_baseline_send_24"
         android:text="Publish"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/gend"
         app:layout_constraintStart_toStartOf="@+id/g1"
-        app:layout_constraintTop_toBottomOf="@+id/uploadbtn" />
+        app:layout_constraintTop_toBottomOf="@+id/showcont" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -62,7 +62,7 @@ class MyRecyclerViewAdapter(context: Context?, myObjectsList: List<User>) :
             }}
             holder.followButton.setText(myObjectsList[position].Followers.size.toString())
             if(OpenModel.CurrentUser.value!!.Followed.contains(myObjectsList[position].key)){
-                holder.followButton.setBackgroundColor(Color.RED)
+                holder.followButton.setBackgroundColor(Color.BLACK)
             }
             holder.followButton.setOnClickListener() {
                 CoroutineScope(Dispatchers.Main).launch {
@@ -78,7 +78,7 @@ class MyRecyclerViewAdapter(context: Context?, myObjectsList: List<User>) :
                                 myObjectsList[position].Followers.add(OpenModel.CurrentUser.value!!.key)
                                 OpenModel.CurrentUser.value!!.Followed.add(myObjectsList[position].key)
                                 holder.followButton.setText((myObjectsList[position].Followers.size).toString())
-                                holder.followButton.setBackgroundColor(Color.RED)
+                                holder.followButton.setBackgroundColor(Color.BLACK)
                             } else {
                                 //Function
                                 AuthHelper.AUnfollowedB(
@@ -89,7 +89,7 @@ class MyRecyclerViewAdapter(context: Context?, myObjectsList: List<User>) :
                                 myObjectsList[position].Followers.remove(OpenModel.CurrentUser.value!!.key)
                                 OpenModel.CurrentUser.value!!.Followed.remove(myObjectsList[position].key)
                                 holder.followButton.setText((myObjectsList[position].Followers.size).toString())
-                                holder.followButton.setBackgroundColor(R.color.fore_500)
+                                holder.followButton.setBackgroundColor(Color.parseColor("#02B387"))
                             }
                         }
                     else{

@@ -7,6 +7,28 @@
     android:background="@color/background"
     tools:context=".Fragments.VisitedProfile">
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:adjustViewBounds="true"
+        android:clickable="true"
+        app:cardCornerRadius="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageend"
+        app:layout_constraintEnd_toStartOf="@+id/v2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/v1"
+        app:layout_constraintTop_toTopOf="@+id/imagetop"
+        app:layout_constraintVertical_bias="1.0">
+
+        <ImageView
+            android:id="@+id/profilephoto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:clickable="true"
+            android:scaleType="fitXY" />
+    </androidx.cardview.widget.CardView>
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/followend"
         android:layout_width="wrap_content"
@@ -44,20 +66,6 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.25" />
 
-    <ImageView
-        android:id="@+id/profilephoto"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:adjustViewBounds="true"
-        android:clickable="true"
-        android:scaleType="fitXY"
-        app:layout_constraintBottom_toTopOf="@+id/imageend"
-        app:layout_constraintEnd_toStartOf="@+id/v2"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/v1"
-        app:layout_constraintTop_toTopOf="@+id/imagetop"
-        app:layout_constraintVertical_bias="1.0" />
-
     <TextView
         android:id="@+id/profilename"
         android:layout_width="wrap_content"
@@ -65,7 +73,7 @@
         android:fontFamily="@font/baloo"
         android:gravity="center"
         android:text="Abdul Manan Raja"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/primaryblack"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/nameend"
         app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +90,7 @@
         android:overScrollMode="ifContentScrolls"
         android:text="a man with a motive"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/desend"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +119,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/acme"
         android:text="0 Followed"
-        android:textColor="#FFFFFF"
+        android:textColor="#858585"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/followend"
         app:layout_constraintEnd_toEndOf="parent"

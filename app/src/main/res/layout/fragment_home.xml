@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="#f5f5f5"
     tools:context=".Fragments.HomeFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -12,13 +12,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
+        android:foregroundTint="#FFFFFF"
         android:src="@drawable/ic_baseline_add_24"
+        android:tint="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/nestedscrl"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.884"
+        app:layout_constraintHorizontal_bias="0.95"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.897" />
+        app:layout_constraintVertical_bias="0.95"
+        app:rippleColor="#2C2C2C" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedscrl"

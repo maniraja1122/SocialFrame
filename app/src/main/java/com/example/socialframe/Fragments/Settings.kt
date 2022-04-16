@@ -38,6 +38,10 @@ class Settings : Fragment() {
             else if(mydesc==""){
                 binding.changedesc.setError("Description can not be empty")
             }
+            else if(mydesc.length>50)
+            {
+                binding.changedesc.setError("Description should be in between 50 characters")
+            }
             else{
             mymodel.CurrentUser.value!!.Name=myname
             mymodel.CurrentUser.value!!.Description=mydesc

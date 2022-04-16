@@ -82,7 +82,7 @@ class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User)
                     }
                 }
                 if(post.Likes.contains(OpenModel.CurrentUser.value!!.key)){
-                    holder.likebtn.setBackgroundColor(Color.RED)
+                    holder.likebtn.setBackgroundColor(Color.BLACK)
                 }
                 //Listener
                 holder.likebtn.setOnClickListener(){
@@ -91,7 +91,7 @@ class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User)
                             post.Likes.remove(OpenModel.CurrentUser.value!!.key)
                             AuthHelper.UpdatePost(post)
                             //Temporary Update
-                            holder.likebtn.setBackgroundColor(R.color.fore_500)
+                            holder.likebtn.setBackgroundColor(Color.parseColor("#02B387"))
                             holder.likebtn.setText((post.Likes.size).toString())
                         } else {
                             post.Likes.add(OpenModel.CurrentUser.value!!.key)
@@ -117,7 +117,7 @@ class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User)
                                     })
                             }
                             //Temporary Update
-                            holder.likebtn.setBackgroundColor(Color.RED)
+                            holder.likebtn.setBackgroundColor(Color.BLACK)
                             holder.likebtn.setText((post.Likes.size).toString())
                         }
                     }}

@@ -41,7 +41,7 @@ class VisitedProfile : Fragment() {
         binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
         binding.followed.setText(mymodel.VisitedUser.value?.Followed?.size.toString() + " Followed")
         if(mymodel.CurrentUser.value?.Followed!!.contains(mymodel.VisitedUser.value?.key)){
-            binding.followers.setBackgroundColor(Color.RED)
+            binding.followers.setBackgroundColor(Color.BLACK)
         }
         binding.msgbtn.setOnClickListener(){
             OpenModel.MessageReciever.value= OpenModel.VisitedUser.value
@@ -50,7 +50,7 @@ class VisitedProfile : Fragment() {
         binding.followers.setOnClickListener(){
             CoroutineScope(Dispatchers.Main).launch { async {
                 if (mymodel.CurrentUser.value?.Followed!!.contains(mymodel.VisitedUser.value?.key)) {
-                    binding.followers.setBackgroundColor(R.color.fore_500)
+                    binding.followers.setBackgroundColor(Color.parseColor("#02B387"))
                     AuthHelper.AUnfollowedB(
                         OpenModel.CurrentUser.value!!,
                         mymodel.VisitedUser.value!!
@@ -59,7 +59,7 @@ class VisitedProfile : Fragment() {
                     OpenModel.CurrentUser.value!!.Followed.remove(mymodel.VisitedUser.value!!.key)
                     binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
                 } else {
-                    binding.followers.setBackgroundColor(Color.RED)
+                    binding.followers.setBackgroundColor(Color.BLACK)
                     AuthHelper.AFollowedB(
                         OpenModel.CurrentUser.value!!,
                         mymodel.VisitedUser.value!!
@@ -85,7 +85,7 @@ class VisitedProfile : Fragment() {
             binding.followers.setText(it.Followers.size.toString())
             binding.followed.setText(it.Followed.size.toString() + " Followed")
             if(mymodel.CurrentUser.value?.Followed!!.contains(mymodel.VisitedUser.value?.key)){
-                binding.followers.setBackgroundColor(Color.RED)
+                binding.followers.setBackgroundColor(Color.BLACK)
             }
             CoroutineScope(Dispatchers.Main).launch { async {
                 Glide.with(OpenModel.mycontext!!).load(mymodel.VisitedUser.value!!.MyPICUrl)

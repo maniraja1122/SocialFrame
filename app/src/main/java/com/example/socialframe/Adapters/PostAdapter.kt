@@ -88,7 +88,7 @@ class PostAdapter(var context:Context,var arr:List<Post>):RecyclerView.Adapter<P
 
         })}}
         if(arr[position].Likes.contains(OpenModel.CurrentUser.value!!.key)){
-            holder.likebtn.setBackgroundColor(Color.RED)
+            holder.likebtn.setBackgroundColor(Color.BLACK)
         }
         //Listener
         holder.likebtn.setOnClickListener(){
@@ -97,7 +97,7 @@ class PostAdapter(var context:Context,var arr:List<Post>):RecyclerView.Adapter<P
                     arr[position].Likes.remove(OpenModel.CurrentUser.value!!.key)
                     AuthHelper.UpdatePost(arr[position])
                     //Temporary Update
-                    holder.likebtn.setBackgroundColor(R.color.fore_500)
+                    holder.likebtn.setBackgroundColor(Color.parseColor("#02B387"))
                     holder.likebtn.setText((arr[position].Likes.size).toString())
                 } else {
                     arr[position].Likes.add(OpenModel.CurrentUser.value!!.key)
@@ -128,7 +128,7 @@ class PostAdapter(var context:Context,var arr:List<Post>):RecyclerView.Adapter<P
                         }
                     }
                     //Temporary Update
-                    holder.likebtn.setBackgroundColor(Color.RED)
+                    holder.likebtn.setBackgroundColor(Color.BLACK)
                     holder.likebtn.setText((arr[position].Likes.size).toString())
                 }
             }}

@@ -4,7 +4,7 @@
     android:id="@+id/mytoolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#303F9F"
+    android:background="@color/primaryblack"
     app:subtitleTextColor="#FFFFFF"
     app:titleTextColor="#FFFFFF">
 

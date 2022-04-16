@@ -21,18 +21,29 @@
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/searchidlayout.xml" value="0.25" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/menu/bottommenu.xml" value="0.27291666666666664" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.15" />
-        <entry key="app/src/main/res/layout/comment_layout.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_login2.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.21547669944420692" />
+        <entry key="app/src/main/res/layout/activity_selector.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.21547669944420692" />
+        <entry key="app/src/main/res/layout/comment_layout.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_chat_box.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/fragment_create_post.xml" value="0.22509057971014493" />
+        <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.16" />
+        <entry key="app/src/main/res/layout/fragment_create_post.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21547669944420692" />
         <entry key="app/src/main/res/layout/fragment_message_box.xml" value="0.16" />
         <entry key="app/src/main/res/layout/fragment_notifications.xml" value="0.22509057971014493" />
-        <entry key="app/src/main/res/layout/fragment_visited_profile.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/item_text_in.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/item_text_out.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/layout_chatbox.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/notification_layout.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/post_layout.xml" value="0.22509057971014493" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.21547669944420692" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.21547669944420692" />
+        <entry key="app/src/main/res/layout/fragment_visited_profile.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/item_text_in.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/item_text_out.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/layout_chatbox.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/mytoolbar.xml" value="0.21547669944420692" />
+        <entry key="app/src/main/res/layout/notification_layout.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/post_layout.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/recycler_view_item_6.xml" value="0.21547669944420692" />
+        <entry key="app/src/main/res/layout/searchidlayout.xml" value="0.33" />
       </map>
     </option>
   </component>

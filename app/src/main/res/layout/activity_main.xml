@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/acme"
         android:text="Social Frame"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/primaryblack"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
