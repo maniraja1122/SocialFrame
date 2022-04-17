@@ -25,6 +25,9 @@ class ChatBox : Fragment() {
     ): View? {
         inflater.inflate(R.layout.fragment_chat_box, container, false)
         var binding = FragmentChatBoxBinding.inflate(inflater,container,false)
+        var adapter=ChatAdapter(OpenModel.AllChats.value!!)
+        binding.allchats.layoutManager=LinearLayoutManager(OpenModel.mycontext)
+        binding.allchats.adapter=adapter
         OpenModel.AllChats.observe(requireActivity(), Observer {
             CoroutineScope(Dispatchers.Main).launch { async {
             var adapter=ChatAdapter(it)

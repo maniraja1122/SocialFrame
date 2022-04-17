@@ -19,10 +19,7 @@ import com.example.socialframe.databinding.FragmentCommentBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class CommentFragment : Fragment() {
@@ -32,8 +29,6 @@ class CommentFragment : Fragment() {
     ): View? {
         inflater.inflate(R.layout.fragment_comment, container, false)
         var binding = FragmentCommentBinding.inflate(inflater,container,false)
-        CoroutineScope(Dispatchers.IO).launch {
-            async {
                 AuthHelper.manager.db.reference.child("Posts").child(OpenModel.OpenedCommentPost.value!!).addListenerForSingleValueEvent(object :ValueEventListener{
                     override fun onDataChange(snapshot: DataSnapshot) {
                         var CurrentPost=snapshot.getValue(Post::class.java)
@@ -72,14 +67,27 @@ class CommentFragment : Fragment() {
                                 binding.commentaddbtn.setOnClickListener(){
                                     var newcomment=binding.commenttext.text.toString()
                                     if(newcomment!=""){
-                                        AuthHelper.AddComment(OpenModel.OpenedCommentPost.value!!,newcomment)
+                                        CoroutineScope(Dispatchers.IO).launch{
+                                            async {
+                                                AuthHelper.AddComment(
+                                                    OpenModel.OpenedCommentPost.value!!,
+                                                    newcomment
+                                                )
+                                            }
+                                        }
                                         binding.commenttext.setText("")
                                         //Temporary
                                         CurrentPost!!.Comments.add(Comment(newcomment, OpenModel.CurrentUser.value!!.key))
-                                        var adapter1=CommentsAdapter(CurrentPost!!.Comments)
-                                        binding.allcomments.layoutManager=LinearLayoutManager(OpenModel.mycontext)
-                                        binding.allcomments.adapter=adapter1
-                                        binding.allcomments.scrollToPosition(CurrentPost.Comments.size - 1);
+                                        CoroutineScope(Dispatchers.Main).launch{
+                                            async {
+                                                var adapter1 =
+                                                    CommentsAdapter(CurrentPost!!.Comments)
+                                                binding.allcomments.layoutManager =
+                                                    LinearLayoutManager(OpenModel.mycontext)
+                                                binding.allcomments.adapter = adapter1
+                                                binding.allcomments.scrollToPosition(CurrentPost.Comments.size - 1);
+                                            }
+                                        }
                                     }
                                     else{
                                         binding.commenttext.setError("Please Enter A Comment First")
@@ -99,8 +107,6 @@ class CommentFragment : Fragment() {
                     }
 
                 })
-            }
-        }
 
         return binding.root
     }

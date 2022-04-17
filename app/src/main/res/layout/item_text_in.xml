@@ -14,14 +14,16 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:background="@android:color/white"
+        android:background="#7CC529"
         android:padding="10dp"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="10dp">
 
         <RelativeLayout
             android:id="@+id/message_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#FFFFFF"
             android:padding="5dp">
 
             <TextView

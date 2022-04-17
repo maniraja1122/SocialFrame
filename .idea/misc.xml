@@ -20,6 +20,7 @@
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/post_layout.xml" value="0.25" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/layout/searchidlayout.xml" value="0.25" />
         <entry key="..\:/Users/hp/AndroidStudioProjects/SocialFrame/app/src/main/res/menu/bottommenu.xml" value="0.27291666666666664" />
+        <entry key="app/src/main/res/drawable/noti_back.xml" value="0.2245" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.15" />
         <entry key="app/src/main/res/layout/activity_login2.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21547669944420692" />
@@ -40,7 +41,7 @@
         <entry key="app/src/main/res/layout/item_text_out.xml" value="0.33" />
         <entry key="app/src/main/res/layout/layout_chatbox.xml" value="0.33" />
         <entry key="app/src/main/res/layout/mytoolbar.xml" value="0.21547669944420692" />
-        <entry key="app/src/main/res/layout/notification_layout.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/notification_layout.xml" value="0.22" />
         <entry key="app/src/main/res/layout/post_layout.xml" value="0.33" />
         <entry key="app/src/main/res/layout/recycler_view_item_6.xml" value="0.21547669944420692" />
         <entry key="app/src/main/res/layout/searchidlayout.xml" value="0.33" />

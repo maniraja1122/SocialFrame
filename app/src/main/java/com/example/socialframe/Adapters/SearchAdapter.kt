@@ -20,10 +20,7 @@ import com.example.socialframe.Fragments.CreatePost
 import com.example.socialframe.Fragments.VisitedProfile
 import com.example.socialframe.R
 import com.example.socialframe.classes.User
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class MyRecyclerViewAdapter(context: Context?, myObjectsList: List<User>) :
@@ -69,27 +66,33 @@ class MyRecyclerViewAdapter(context: Context?, myObjectsList: List<User>) :
                     async {
                         if (OpenModel.CurrentUser.value!!.key != myObjectsList[position].key) {
                             if (!OpenModel.CurrentUser.value!!.Followed.contains(myObjectsList[position].key)) {
-                                //Function
-                                AuthHelper.AFollowedB(
-                                    OpenModel.CurrentUser.value!!,
-                                    myObjectsList[position]
-                                )
                                 //Temporary Show
                                 myObjectsList[position].Followers.add(OpenModel.CurrentUser.value!!.key)
                                 OpenModel.CurrentUser.value!!.Followed.add(myObjectsList[position].key)
                                 holder.followButton.setText((myObjectsList[position].Followers.size).toString())
                                 holder.followButton.setBackgroundColor(Color.BLACK)
+                                withContext(Dispatchers.IO) {
+                                    async {
+                                        AuthHelper.AFollowedB(
+                                            OpenModel.CurrentUser.value!!,
+                                            myObjectsList[position]
+                                        )
+                                    }
+                                }
                             } else {
                                 //Function
-                                AuthHelper.AUnfollowedB(
-                                    OpenModel.CurrentUser.value!!,
-                                    myObjectsList[position]
-                                )
                                 //Temporary Show
                                 myObjectsList[position].Followers.remove(OpenModel.CurrentUser.value!!.key)
                                 OpenModel.CurrentUser.value!!.Followed.remove(myObjectsList[position].key)
                                 holder.followButton.setText((myObjectsList[position].Followers.size).toString())
                                 holder.followButton.setBackgroundColor(Color.parseColor("#02B387"))
+                                withContext(Dispatchers.IO) {
+                                    async {
+                                        AuthHelper.AUnfollowedB(
+                                            OpenModel.CurrentUser.value!!,
+                                            myObjectsList[position]
+                                        )
+                                    }}
                             }
                         }
                     else{

@@ -20,10 +20,7 @@ import com.example.socialframe.R
 import com.example.socialframe.ViewModels.MainViewModel
 import com.example.socialframe.databinding.FragmentProfileBinding
 import com.example.socialframe.databinding.FragmentVisitedProfileBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class VisitedProfile : Fragment() {
@@ -48,25 +45,33 @@ class VisitedProfile : Fragment() {
         }
         //Adding Follow Button
         binding.followers.setOnClickListener(){
-            CoroutineScope(Dispatchers.Main).launch { async {
+            CoroutineScope(Dispatchers.IO).launch { async {
                 if (mymodel.CurrentUser.value?.Followed!!.contains(mymodel.VisitedUser.value?.key)) {
-                    binding.followers.setBackgroundColor(Color.parseColor("#02B387"))
-                    AuthHelper.AUnfollowedB(
-                        OpenModel.CurrentUser.value!!,
-                        mymodel.VisitedUser.value!!
-                    )
-                    mymodel.VisitedUser.value!!.Followers.remove(OpenModel.CurrentUser.value!!.key)
-                    OpenModel.CurrentUser.value!!.Followed.remove(mymodel.VisitedUser.value!!.key)
-                    binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
+                    async {
+                        AuthHelper.AUnfollowedB(
+                            OpenModel.CurrentUser.value!!,
+                            mymodel.VisitedUser.value!!
+                        )}
+                    withContext(Dispatchers.Main) {
+                        async {
+                            binding.followers.setBackgroundColor(Color.parseColor("#02B387"))
+                            mymodel.VisitedUser.value!!.Followers.remove(OpenModel.CurrentUser.value!!.key)
+                            OpenModel.CurrentUser.value!!.Followed.remove(mymodel.VisitedUser.value!!.key)
+                            binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
+                        }}
                 } else {
-                    binding.followers.setBackgroundColor(Color.BLACK)
-                    AuthHelper.AFollowedB(
-                        OpenModel.CurrentUser.value!!,
-                        mymodel.VisitedUser.value!!
-                    )
-                    mymodel.VisitedUser.value!!.Followers.add(OpenModel.CurrentUser.value!!.key)
-                    OpenModel.CurrentUser.value!!.Followed.add(mymodel.VisitedUser.value!!.key)
-                    binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
+                    async {
+                            AuthHelper.AFollowedB(
+                                OpenModel.CurrentUser.value!!,
+                                mymodel.VisitedUser.value!!
+                            )}
+                    withContext(Dispatchers.Main) {
+                        async {
+                            binding.followers.setBackgroundColor(Color.BLACK)
+                            mymodel.VisitedUser.value!!.Followers.add(OpenModel.CurrentUser.value!!.key)
+                            OpenModel.CurrentUser.value!!.Followed.add(mymodel.VisitedUser.value!!.key)
+                            binding.followers.setText(mymodel.VisitedUser.value?.Followers?.size.toString())
+                        }}
                 }
             }}
         }

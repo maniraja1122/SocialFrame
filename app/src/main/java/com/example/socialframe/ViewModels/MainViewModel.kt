@@ -37,23 +37,11 @@ class MainViewModel:ViewModel() {
     var mycontext:Context?=null
     //Functions
     fun UpdateUI(){
-        CoroutineScope(Dispatchers.IO).launch {
-            async {
                 UpdateUser()
-            }
-            async {
                 UpdateAllPosts()
-            }
-            async {
                 UpdateAllUsers()
-            }
-            async {
                 UpdateMessages()
-            }
-            async {
                 UpdateChats()
-            }
-        }
     }
     fun SetUI(){
         CoroutineScope(Dispatchers.IO).launch {

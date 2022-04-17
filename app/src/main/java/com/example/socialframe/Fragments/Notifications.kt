@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.socialframe.Activities.OpenModel
@@ -12,6 +13,7 @@ import com.example.socialframe.Adapters.NotificationsAdapter
 import com.example.socialframe.AuthFunctions.AuthHelper
 import com.example.socialframe.R
 import com.example.socialframe.databinding.FragmentNotificationsBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -32,6 +34,7 @@ class Notifications : Fragment() {
                 NotificationsAdapter(OpenModel.CurrentUser.value!!.MyNotifications.reversed())
             binding.allnotifications.layoutManager = LinearLayoutManager(OpenModel.mycontext)
             binding.allnotifications.adapter = adapter
+            AuthHelper.UpdateReadNotifications(OpenModel.CurrentUser.value!!.MyNotifications.size)
         }}
         try {
             OpenModel.CurrentUser.observe(requireActivity(), Observer {

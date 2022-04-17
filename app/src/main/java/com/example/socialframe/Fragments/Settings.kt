@@ -16,6 +16,7 @@ import com.example.socialframe.R
 import com.example.socialframe.ViewModels.MainViewModel
 import com.example.socialframe.databinding.FragmentSearchBinding
 import com.example.socialframe.databinding.FragmentSettingsBinding
+import kotlinx.coroutines.*
 
 
 class Settings : Fragment() {
@@ -45,8 +46,16 @@ class Settings : Fragment() {
             else{
             mymodel.CurrentUser.value!!.Name=myname
             mymodel.CurrentUser.value!!.Description=mydesc
-            AuthHelper.AddUser(mymodel.CurrentUser.value!!)
-                Toast.makeText(OpenModel.mycontext, "Saved Successfully", Toast.LENGTH_SHORT).show()
+                CoroutineScope(Dispatchers.IO).launch {
+                    async {
+                        AuthHelper.AddUser(mymodel.CurrentUser.value!!)
+                        withContext(Dispatchers.Main){
+                            async {
+                                Toast.makeText(OpenModel.mycontext, "Saved Successfully", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
             }
         }
         binding.delbtn.setOnClickListener(){

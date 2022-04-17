@@ -21,10 +21,7 @@ import com.example.socialframe.classes.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class PostAdapter(var context:Context,var arr:List<Post>):RecyclerView.Adapter<PostAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
@@ -95,15 +92,20 @@ class PostAdapter(var context:Context,var arr:List<Post>):RecyclerView.Adapter<P
             CoroutineScope(Dispatchers.Main).launch { async {
                 if (arr[position].Likes.contains(OpenModel.CurrentUser.value!!.key)) {
                     arr[position].Likes.remove(OpenModel.CurrentUser.value!!.key)
-                    AuthHelper.UpdatePost(arr[position])
+                    withContext(Dispatchers.IO){
+                        async {
+                            AuthHelper.UpdatePost(arr[position])
+                        }}
                     //Temporary Update
                     holder.likebtn.setBackgroundColor(Color.parseColor("#02B387"))
                     holder.likebtn.setText((arr[position].Likes.size).toString())
                 } else {
                     arr[position].Likes.add(OpenModel.CurrentUser.value!!.key)
-                    AuthHelper.UpdatePost(arr[position])
+                    withContext(Dispatchers.IO){
+                        async {
+                    AuthHelper.UpdatePost(arr[position])}}
                     //Notified
-                    CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Dispatchers.IO){
                         async {
                             if (arr[position].author != OpenModel.CurrentUser.value!!.key) {
                                 AuthHelper.manager.db.reference.child("Users")
@@ -116,7 +118,9 @@ class PostAdapter(var context:Context,var arr:List<Post>):RecyclerView.Adapter<P
                                                 "Someone liked your post", arr[position].key
                                             )
                                             myuser!!.MyNotifications.add(newnotification)
-                                            AuthHelper.AddUser(myuser)
+                                            async {
+                                                AuthHelper.AddUser(myuser)
+                                            }
                                         }
 
                                         override fun onCancelled(error: DatabaseError) {

@@ -22,10 +22,7 @@ import com.example.socialframe.classes.User
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User): RecyclerView.Adapter<LinkPostAdapter.MyViewHolder>() {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
@@ -89,32 +86,45 @@ class LinkPostAdapter(var context: Context, var arr:List<String>,var user: User)
                     CoroutineScope(Dispatchers.Main).launch { async {
                         if (post.Likes.contains(OpenModel.CurrentUser.value!!.key)) {
                             post.Likes.remove(OpenModel.CurrentUser.value!!.key)
-                            AuthHelper.UpdatePost(post)
+                            withContext(Dispatchers.IO) {
+                                async {
+                            AuthHelper.UpdatePost(post)} }
                             //Temporary Update
                             holder.likebtn.setBackgroundColor(Color.parseColor("#02B387"))
                             holder.likebtn.setText((post.Likes.size).toString())
                         } else {
                             post.Likes.add(OpenModel.CurrentUser.value!!.key)
-                            AuthHelper.UpdatePost(post)
+                            withContext(Dispatchers.IO){
+                                async {
+                                    AuthHelper.UpdatePost(post)
+                                }}
                             //Notified
                             if (post.author != OpenModel.CurrentUser.value!!.key) {
-                                AuthHelper.manager.db.reference.child("Users").child(post.author)
-                                    .addListenerForSingleValueEvent(object : ValueEventListener {
-                                        override fun onDataChange(snapshot: DataSnapshot) {
-                                            var myuser = snapshot.getValue(User::class.java)
-                                            var newnotification = Notifications(
-                                                "post",
-                                                "Someone liked your post", post.key
-                                            )
-                                            myuser!!.MyNotifications.add(newnotification)
-                                            AuthHelper.AddUser(myuser)
-                                        }
+                                withContext(Dispatchers.IO) {
+                                    async {
+                                        AuthHelper.manager.db.reference.child("Users")
+                                            .child(post.author)
+                                            .addListenerForSingleValueEvent(object :
+                                                ValueEventListener {
+                                                override fun onDataChange(snapshot: DataSnapshot) {
+                                                    var myuser = snapshot.getValue(User::class.java)
+                                                    var newnotification = Notifications(
+                                                        "post",
+                                                        "Someone liked your post", post.key
+                                                    )
+                                                    myuser!!.MyNotifications.add(newnotification)
+                                                    async {
+                                                        AuthHelper.AddUser(myuser)
+                                                    }
+                                                }
 
-                                        override fun onCancelled(error: DatabaseError) {
-                                            TODO("Not yet implemented")
-                                        }
+                                                override fun onCancelled(error: DatabaseError) {
+                                                    TODO("Not yet implemented")
+                                                }
 
-                                    })
+                                            })
+                                    }
+                                }
                             }
                             //Temporary Update
                             holder.likebtn.setBackgroundColor(Color.BLACK)

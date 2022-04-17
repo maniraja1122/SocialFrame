@@ -13,10 +13,7 @@ import com.example.socialframe.Adapters.PostAdapter
 import com.example.socialframe.R
 import com.example.socialframe.ViewModels.MainViewModel
 import com.example.socialframe.databinding.FragmentHomeBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
 class HomeFragment : Fragment() {
@@ -28,10 +25,17 @@ class HomeFragment : Fragment() {
     ): View? {
         var binding:FragmentHomeBinding= FragmentHomeBinding.inflate(inflater,container,false)
         var mymodel=ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        CoroutineScope(Dispatchers.IO).launch {
         mymodel.SetAllPosts()
-        var adapter = PostAdapter(OpenModel.mycontext!!, OpenModel.AllPosts.value!!)
-        binding.recyclerView.layoutManager=LinearLayoutManager(OpenModel.mycontext)
-        binding.recyclerView.adapter=adapter
+            withContext(Dispatchers.Main){
+                async {
+                    var adapter = PostAdapter(OpenModel.mycontext!!, OpenModel.AllPosts.value!!)
+                    binding.recyclerView.layoutManager=LinearLayoutManager(OpenModel.mycontext)
+                    binding.recyclerView.adapter=adapter
+                }
+            }
+            }
+
         binding.addbtn.setOnClickListener(){
             requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,CreatePost()).commit()
         }
