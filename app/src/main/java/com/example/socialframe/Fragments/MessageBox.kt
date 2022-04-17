@@ -73,6 +73,8 @@ class MessageBox : Fragment() {
             OpenModel.AllMessages.value!![OpenModel.MessageReciever.value!!.key]!!.observe(
                 requireActivity(),
                 Observer {
+                    templist.clear()
+                    templist.addAll(it)
                     if (binding.allmessages.adapter!=null && it.size != binding.allmessages.adapter!!.itemCount) {
                         CoroutineScope(Dispatchers.Main).launch {
 
@@ -112,7 +114,7 @@ class MessageBox : Fragment() {
                         AuthHelper.SendMessage(OpenModel.CurrentUser.value!!.key, OpenModel.MessageReciever.value!!.key,newmessage)
                     }
                 }
-                        if (!OpenModel.AllMessages.value!!.containsKey(OpenModel.MessageReciever.value!!.key)) {
+                        //if (!OpenModel.AllMessages.value!!.containsKey(OpenModel.MessageReciever.value!!.key)) {
                             templist.add(MessageModel(newmessage, 1))
                             //Temporary
                             CoroutineScope(Dispatchers.Main).launch {
@@ -125,10 +127,10 @@ class MessageBox : Fragment() {
                                         LinearLayoutManager(OpenModel.mycontext)
                                     binding.allmessages.adapter = adapter2
                                     binding.allmessages.scrollToPosition(binding.allmessages.adapter!!.getItemCount() - 1);
-                                    requireActivity().supportFragmentManager.beginTransaction()
-                                        .replace(R.id.fragmentContainerView, MessageBox()).commit()
+//                                    requireActivity().supportFragmentManager.beginTransaction()
+//                                        .replace(R.id.fragmentContainerView, MessageBox()).commit()
                                 } }
-                        }
+                        //}
         }
             else{
                 binding.entertext.setError("Please Enter A Message First")

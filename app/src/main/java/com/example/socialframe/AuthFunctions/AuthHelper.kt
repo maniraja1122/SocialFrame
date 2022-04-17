@@ -27,6 +27,7 @@ object AuthHelper {
     fun UpdateReadNotifications(newcount:Int){
         CoroutineScope(Dispatchers.IO).launch {
             async {
+
                 manager.db.getReference().child("Users").child(OpenModel.CurrentUser.value!!.key).child("readNotifications").setValue(newcount)
             }
         }
@@ -210,11 +211,9 @@ object AuthHelper {
                         var newmessage = MessageModel(message,1)
                         var key = manager.db.getReference().child("Messages").child(user1).child(user2).push().key
                         manager.db.getReference().child("Messages").child(user1).child(user2).child(key!!).setValue(newmessage)
-                    }
-                    async {
-                        var newmessage = MessageModel(message,2)
-                        var key = manager.db.getReference().child("Messages").child(user2).child(user1).push().key
-                        manager.db.getReference().child("Messages").child(user2).child(user1).child(key!!).setValue(newmessage)
+                        var newmessage1 = MessageModel(message,2)
+                        var key1 = manager.db.getReference().child("Messages").child(user2).child(user1).push().key
+                        manager.db.getReference().child("Messages").child(user2).child(user1).child(key1!!).setValue(newmessage1)
                     }
                 }
             }

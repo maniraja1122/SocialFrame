@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.socialframe.Activities.OpenModel
+import com.example.socialframe.Activities.binding
 import com.example.socialframe.Adapters.NotificationsAdapter
 import com.example.socialframe.AuthFunctions.AuthHelper
 import com.example.socialframe.R
@@ -28,6 +29,7 @@ class Notifications : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         inflater.inflate(R.layout.fragment_notifications, container, false)
+        binding!!.bottomnav.getOrCreateBadge(R.id.notificationbtn).number = 0
         var binding = FragmentNotificationsBinding.inflate(inflater,container,false)
         CoroutineScope(Dispatchers.Main).launch { async {
             var adapter =

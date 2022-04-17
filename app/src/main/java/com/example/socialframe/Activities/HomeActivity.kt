@@ -19,11 +19,12 @@ import com.example.socialframe.databinding.ActivityLogin2Binding
 import kotlinx.coroutines.*
 
 lateinit var OpenModel:MainViewModel
+var binding:ActivityHomeBinding?=null
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        var binding = ActivityHomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding!!.root)
         var toolbar:Toolbar?=findViewById(R.id.mytoolbar)
         toolbar?.setTitle("")
         setSupportActionBar(toolbar)
@@ -34,34 +35,34 @@ class HomeActivity : AppCompatActivity() {
         var profilebtn=findViewById<ImageButton>(R.id.profilebtn)
         searchbtn.setOnClickListener(){
             var transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(binding.fragmentContainerView.id,Search())
+            transaction.replace(binding!!.fragmentContainerView.id,Search())
             transaction.commit()
         }
         messagebtn.setOnClickListener(){
             var transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(binding.fragmentContainerView.id,ChatBox())
+            transaction.replace(binding!!.fragmentContainerView.id,ChatBox())
             transaction.commit()
         }
         profilebtn.setOnClickListener(){
             var transaction = supportFragmentManager.beginTransaction()
-            transaction.replace(binding.fragmentContainerView.id,Profile())
+            transaction.replace(binding!!.fragmentContainerView.id,Profile())
             transaction.commit()
         }
-        binding.bottomnav.setOnNavigationItemSelectedListener {
+        binding!!.bottomnav.setOnNavigationItemSelectedListener {
             when(it.itemId) {
                 R.id.homebtn -> {
                     var transaction = supportFragmentManager.beginTransaction()
-                    transaction.replace(binding.fragmentContainerView.id,HomeFragment())
+                    transaction.replace(binding!!.fragmentContainerView.id,HomeFragment())
                     transaction.commit()
                 }
                 R.id.settingbtn -> {
                     var transaction = supportFragmentManager.beginTransaction()
-                    transaction.replace(binding.fragmentContainerView.id,Settings())
+                    transaction.replace(binding!!.fragmentContainerView.id,Settings())
                     transaction.commit()
                 }
                 R.id.notificationbtn -> {
                     var transaction = supportFragmentManager.beginTransaction()
-                    transaction.replace(binding.fragmentContainerView.id,Notifications())
+                    transaction.replace(binding!!.fragmentContainerView.id,Notifications())
                     transaction.commit()
                 }
             }
@@ -70,7 +71,7 @@ class HomeActivity : AppCompatActivity() {
         OpenModel.VisitedUser.observe(this, Observer {
             if(it.Name!="NA") {
                 var transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(binding.fragmentContainerView.id, VisitedProfile())
+                transaction.replace(binding!!.fragmentContainerView.id, VisitedProfile())
                 transaction.commit()
             }
         })
@@ -78,7 +79,7 @@ class HomeActivity : AppCompatActivity() {
         OpenModel.MessageReciever.observe(this, Observer {
             if(it.Name!="NA"){
                 var transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(binding.fragmentContainerView.id, MessageBox())
+                transaction.replace(binding!!.fragmentContainerView.id, MessageBox())
                 transaction.commit()
             }
         })
@@ -86,7 +87,7 @@ class HomeActivity : AppCompatActivity() {
         OpenModel.OpenedCommentPost.observe(this, Observer {
             if(it!="") {
                 var transaction = supportFragmentManager.beginTransaction()
-                transaction.replace(binding.fragmentContainerView.id, CommentFragment())
+                transaction.replace(binding!!.fragmentContainerView.id, CommentFragment())
                 transaction.commit()
             }
         })
@@ -95,7 +96,7 @@ class HomeActivity : AppCompatActivity() {
             var totalcount = it.MyNotifications.size
             var readcount=it.ReadNotifications
             var notificationsno=totalcount-readcount
-            binding.bottomnav.getOrCreateBadge(R.id.notificationbtn).number = notificationsno
+            binding!!.bottomnav.getOrCreateBadge(R.id.notificationbtn).number = notificationsno
         })
         //Updating UI
         GlobalScope.launch(Dispatchers.IO) {
